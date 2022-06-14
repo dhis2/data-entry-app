@@ -15,14 +15,41 @@ import { useDataValueSet } from '../use-data-value-set.js'
 import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
 
+function canItemHaveLimits(de) {
+    if (de.optionSetValue) {
+        return false
+    }
+
+    return [
+        VALUE_TYPES.INTEGER,
+        VALUE_TYPES.INTEGER_NEGATIVE,
+        VALUE_TYPES.INTEGER_POSITIVE,
+        VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE,
+        VALUE_TYPES.UNIT_INTERVAL,
+        VALUE_TYPES.NUMBER,
+        VALUE_TYPES.PERCENTAGE,
+    ].includes(de.valueType)
+}
+
 function createCurrentItem({ de, coc, dataValueSet }) {
     const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
+    const canHaveLimits = canItemHaveLimits(de)
+
     if (dataValue) {
+        const item = dataValueSet.data[de.id][coc.id]
+        const limits = canHaveLimits ? {} : {
+            min: item.min,
+            max: item.min,
+        }
+
         return {
             ...dataValue,
             categoryOptionCombo: coc.id,
             name: de.displayName,
             code: de.code,
+            canHaveLimits,
+            valueType: de.valueType,
+            limits,
         }
     }
 
@@ -35,6 +62,9 @@ function createCurrentItem({ de, coc, dataValueSet }) {
         comment: null,
         storedBy: null,
         code: null,
+        canHaveLimits,
+        valueType: de.valueType,
+        limits: { min: undefined, max: undefined },
     }
 }
 

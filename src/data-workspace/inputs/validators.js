@@ -1,12 +1,17 @@
 import i18n from '@dhis2/d2-i18n'
 import {
-    integer,
-    createMinNumber,
     composeValidators,
-    createMaxNumber,
-    createNumberRange,
     createMaxCharacterLength,
+    createMaxNumber,
+    createMinNumber,
+    createNumberRange,
+    email,
+    integer,
+    internationalPhoneNumber,
+    number,
+    url,
 } from '@dhis2/ui-forms'
+import { VALUE_TYPES } from '../data-entry-cell/value-types.js'
 
 export const text = createMaxCharacterLength(50000)
 export const letter = createMaxCharacterLength(1)
@@ -57,3 +62,55 @@ export const integerNegative = composeValidators(integer, createMaxNumber(-1))
 
 export const percentage = createNumberRange(0, 100)
 export const unitInterval = createNumberRange(0, 1)
+
+export const validatorsByValueType = {
+    [VALUE_TYPES.DATE]: null, // todo (in case browser doesn't support special input)
+    [VALUE_TYPES.DATETIME]: null, // todo " "
+    [VALUE_TYPES.EMAIL]: email,
+    [VALUE_TYPES.INTEGER]: integer,
+    [VALUE_TYPES.INTEGER_POSITIVE]: integerPositive,
+    [VALUE_TYPES.INTEGER_NEGATIVE]: integerNegative,
+    [VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE]: integerZeroOrPositive,
+    [VALUE_TYPES.LETTER]: letter,
+    [VALUE_TYPES.NUMBER]: number,
+    [VALUE_TYPES.PERCENTAGE]: percentage,
+    [VALUE_TYPES.PHONE_NUMBER]: internationalPhoneNumber,
+    [VALUE_TYPES.TEXT]: text,
+    [VALUE_TYPES.TIME]: time,
+    [VALUE_TYPES.UNIT_INTERVAL]: unitInterval,
+    [VALUE_TYPES.URL]: url,
+}
+
+// This is an internal helper of the ui-forms library,
+// can be removed once `createLessThan` and `createMoreThan` have been moved to
+// the @dhis2/ui-forms library
+const isEmpty = (value) =>
+    typeof value === 'undefined' || value === null || value === ''
+
+// @TODO: Move to @dhis2/ui-forms validators
+export const createLessThan = (key, description) => {
+    const errorMessage = i18n.t(
+        'Please make sure the value of this input is less than the value in "{{otherField}}".',
+        { otherField: description || key }
+    )
+
+    return (value, allValues) => (
+        isEmpty(value) ||
+        isEmpty(allValues[key]) ||
+        value < allValues[key] ? undefined : errorMessage
+    )
+}
+
+// @TODO: Move to @dhis2/ui-forms validators
+export const createMoreThan = (key, description) => {
+    const errorMessage = i18n.t(
+        'Please make sure the value of this input is more than the value in "{{otherField}}".',
+        { otherField: description || key }
+    )
+
+    return (value, allValues) => (
+        isEmpty(value) ||
+        isEmpty(allValues[key]) ||
+        value > allValues[key] ? undefined : errorMessage
+    )
+}

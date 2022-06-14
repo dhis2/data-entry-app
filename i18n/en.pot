@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-14T14:58:26.386Z\n"
-"PO-Revision-Date: 2022-07-14T14:58:26.386Z\n"
+"POT-Creation-Date: 2022-07-18T13:48:23.812Z\n"
+"PO-Revision-Date: 2022-07-18T13:48:23.812Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -241,6 +241,9 @@ msgstr "Add comment"
 msgid "Details"
 msgstr "Details"
 
+msgid "Minimum and maximum limits"
+msgstr "Minimum and maximum limits"
+
 msgid "History and audit"
 msgstr "History and audit"
 
@@ -250,20 +253,11 @@ msgstr "Something went wrong loading the history and audit log"
 msgid "History"
 msgstr "History"
 
-msgid "There was a problem saving the data item limits."
-msgstr "There was a problem saving the data item limits."
-
-msgid "There was a problem deleting the data item limits."
-msgstr "There was a problem deleting the data item limits."
+msgid "Average value: {{avg}}"
+msgstr "Average value: {{avg}}"
 
 msgid "Delete limits"
 msgstr "Delete limits"
-
-msgid "There was a problem loading the limits for this data item"
-msgstr "There was a problem loading the limits for this data item"
-
-msgid "Average value: {{avg}}"
-msgstr "Average value: {{avg}}"
 
 msgid "Minimum"
 msgstr "Minimum"
@@ -271,23 +265,20 @@ msgstr "Minimum"
 msgid "Maximum"
 msgstr "Maximum"
 
-msgid "Save limits"
-msgstr "Save limits"
+msgid "Edit"
+msgstr "Edit"
 
-msgid "No limits set for this data item."
-msgstr "No limits set for this data item."
+msgid "Try again, or contact your system administrator."
+msgstr "Try again, or contact your system administrator."
+
+msgid "No limit set for this data item"
+msgstr "No limit set for this data item"
 
 msgid "Add limits"
 msgstr "Add limits"
 
-msgid "Edit limits"
-msgstr "Edit limits"
-
-msgid "Minimum and maximum limits"
-msgstr "Minimum and maximum limits"
-
-msgid "Try again, or contact your system administrator."
-msgstr "Try again, or contact your system administrator."
+msgid "Save limits"
+msgstr "Save limits"
 
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
@@ -343,6 +334,20 @@ msgstr "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
 msgstr "Please provide a valid time in the format HH{{c}}MM"
+
+msgid ""
+"Please make sure the value of this input is less than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+"Please make sure the value of this input is less than the value in "
+"\"{{otherField}}\"."
+
+msgid ""
+"Please make sure the value of this input is more than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+"Please make sure the value of this input is more than the value in "
+"\"{{otherField}}\"."
 
 msgid "Type here to filter in this section"
 msgstr "Type here to filter in this section"

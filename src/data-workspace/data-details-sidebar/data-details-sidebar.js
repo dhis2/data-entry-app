@@ -17,12 +17,15 @@ import {
     SidebarProps,
 } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
+import { useDataValueSet } from '../use-data-value-set.js'
 import AuditLog from './audit-log.js'
 import BasicInformation from './basic-information.js'
 import Comment from './comment.js'
 import HistoryUnit from './history-unit.js'
+import Limits from './limits.js'
 
 export default function DataDetailsSidebar() {
+    const dataValueSet = useDataValueSet()
     const { item } = useCurrentItemContext()
     const onMarkForFollowup = () => null
     const onUnmarkForFollowup = () => null
@@ -46,6 +49,17 @@ export default function DataDetailsSidebar() {
         enabled: isValidSelection,
     })
 
+    const minMaxValue = dataValueSet.data?.minMaxValues.find((curMinMaxValue) => (
+        curMinMaxValue.categoryOptionCombo === item.categoryOptionCombo &&
+        curMinMaxValue.dataElement === item.dataElement &&
+        curMinMaxValue.orgUnit === orgUnitId
+    )) || {}
+
+    const limits = {
+        min: minMaxValue.minValue,
+        max: minMaxValue.maxValue,
+    }
+
     return (
         <Sidebar>
             <Title onClose={rightHandPanel.hide}>{i18n.t('Details')}</Title>
@@ -58,7 +72,17 @@ export default function DataDetailsSidebar() {
 
             <Comment comment={item.comment} />
 
-            {/* <Limits itemId={item.id} itemType={item.type} /> */}
+            <ExpandableUnit
+                title={i18n.t('Minimum and maximum limits')}
+                disabled={!item.canHaveLimits}
+            >
+                <Limits
+                    valueType={item.valueType}
+                    dataElementId={item.dataElement}
+                    categoryOptionComboId={item.categoryOptionCombo}
+                    limits={limits}
+                />
+            </ExpandableUnit>
 
             {dataValueContext.isLoading && (
                 <ExpandableUnit
