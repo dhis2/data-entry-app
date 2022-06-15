@@ -28,6 +28,7 @@ export const useDataValueParams = ({ deId, cocId }) => {
         ou: orgUnitId,
         pe: periodId,
     }
+
     // Add attribute params to mutation if relevant
     if (!isDefaultAttributeCombo) {
         // Get a ';'-separated listed of attribute options

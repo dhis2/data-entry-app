@@ -34,12 +34,12 @@ function canItemHaveLimits(de) {
 function createCurrentItem({ de, coc, dataValueSet }) {
     const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
     const canHaveLimits = canItemHaveLimits(de)
+    const existingItem = dataValueSet?.data?.dataValues[de.id]?.[coc.id]
 
     if (dataValue) {
-        const item = dataValueSet.data[de.id][coc.id]
         const limits = canHaveLimits ? {} : {
-            min: item.min,
-            max: item.min,
+            min: existingItem.min,
+            max: existingItem.min,
         }
 
         return {
