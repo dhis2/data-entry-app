@@ -1,4 +1,5 @@
 import deleteDataValue from './delete-data-value.js'
+import getDataValueIndex from './get-data-value-index.js'
 
 export default async function optimisticallyDeleteDataValue({
     queryClient,
@@ -15,14 +16,7 @@ export default async function optimisticallyDeleteDataValue({
     queryClient.setQueryData(dataValueSetQueryKey, () => {
         // dataValueSet.dataValues can be undefined
         const previousDataValues = previousDataValueSet.dataValues || []
-        const matchIndex = previousDataValues.findIndex(
-            (dataValue) =>
-                dataValue.categoryOptionCombo === newDataValue.co &&
-                dataValue.dataElement === newDataValue.de &&
-                dataValue.orgUnit === newDataValue.ou &&
-                dataValue.period === newDataValue.pe
-        )
-
+        const matchIndex = getDataValueIndex(previousDataValues, newDataValue)
         return deleteDataValue(previousDataValueSet, matchIndex)
     })
 

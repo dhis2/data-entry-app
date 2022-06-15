@@ -1,4 +1,5 @@
 import addDataValue from './add-data-value.js'
+import getDataValueIndex from './get-data-value-index.js'
 import updateDataValue from './update-data-value.js'
 
 export default async function optimisticallySetDataValue({
@@ -18,14 +19,7 @@ export default async function optimisticallySetDataValue({
     queryClient.setQueryData(dataValueSetQueryKey, () => {
         // dataValueSet.dataValues can be undefined
         const previousDataValues = previousDataValueSet.dataValues || []
-        const matchIndex = previousDataValues.findIndex(
-            (dataValue) =>
-                dataValue.categoryOptionCombo === newDataValue.co &&
-                dataValue.dataElement === newDataValue.de &&
-                dataValue.orgUnit === newDataValue.ou &&
-                dataValue.period === newDataValue.pe
-        )
-
+        const matchIndex = getDataValueIndex(previousDataValues, newDataValue)
         const isNewDataValue = matchIndex === -1
 
         // If this is a file-type data value, set value to some file metadata
