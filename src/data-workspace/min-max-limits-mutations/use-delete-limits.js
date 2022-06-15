@@ -2,6 +2,7 @@ import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
 import { dataValueSets } from '../query-key-factory.js'
+import getMinMaxValueIndex from './get-min-max-value-index.js'
 
 function deleteLimit(
     previousDataValueSet,
@@ -79,31 +80,23 @@ export default function useDeleteLimits(onDone) {
 
             // Optimistically delete to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
-                // dataValueSet.dataValues can be undefined
+                // dataValueSet.minMaxValues can be undefined
                 const previousMinMaxValues = previousDataValueSet.minMaxValues || []
+                const matchIndex = getMinMaxValueIndex(previousMinMaxValues, variables)
 
-                const matchIndex = previousMinMaxValues.findIndex(
-                    (minMaxValue) =>
-                        minMaxValue.categoryOptionCombo === variables.categoryOptionCombo &&
-                        minMaxValue.dataElement === variables.dataElement &&
-                        minMaxValue.orgUnit === variables.orgUnit
-                )
-
-                // If the field was previously empty the dataValue won't exist yet
-                const withDeletedLimit = deleteLimit(
+                return deleteLimit(
                     previousDataValueSet,
                     variables,
                     matchIndex
                 )
-
-                return withDeletedLimit
             })
 
-            return { previousDataValueSet, dataValueSetQueryKey }
+            const context = { previousDataValueSet, dataValueSetQueryKey }
+            return context
         },
-        onError: (e, newLimit, context) => {
+        onError: (event, _, context) => {
             showErrorAlert(
-                `Something went wrong while deleting the min-max limits: ${e.message}`
+                `Something went wrong while deleting the min-max limits: ${event.message}`
             )
 
             queryClient.setQueryData(
