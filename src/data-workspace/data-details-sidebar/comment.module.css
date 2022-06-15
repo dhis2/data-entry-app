@@ -11,6 +11,12 @@
     border-left: 2px solid var(--colors-grey400);
 }
 
+.commentValue {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+}
+
 .placeholder {
     color: var(--colors-grey600);
 }

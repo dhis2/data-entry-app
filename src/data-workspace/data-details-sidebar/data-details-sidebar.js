@@ -74,7 +74,9 @@ export default function DataDetailsSidebar() {
                 onUnmarkForFollowup={onUnmarkForFollowup}
             />
 
-            <Comment comment={item.comment} />
+            <ExpandableUnit initiallyOpen title={i18n.t('Comment')}>
+                <Comment item={dataValue} />
+            </ExpandableUnit>
 
             <ExpandableUnit
                 title={i18n.t('Minimum and maximum limits')}
