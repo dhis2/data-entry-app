@@ -6,7 +6,15 @@ import useMutationFn from './use-mutation-fn.js'
 export const UPLOAD_FILE_MUTATION = {
     resource: 'dataValues/file',
     type: 'create',
-    data: (data) => data,
+    data: ({ co, de, ds, ou, pe, value, file }) => ({
+        co,
+        de,
+        ds,
+        ou,
+        pe,
+        value,
+        file,
+    }),
 }
 
 export function useUploadDataValueFileMutation() {

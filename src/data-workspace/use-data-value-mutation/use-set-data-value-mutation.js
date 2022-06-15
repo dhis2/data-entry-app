@@ -6,7 +6,7 @@ import useMutationFn from './use-mutation-fn.js'
 export const SET_DATA_VALUE_MUTATION = {
     resource: 'dataValues',
     type: 'create',
-    data: (data) => data,
+    data: ({ co, de, ds, ou, pe, value }) => ({ co, de, ds, ou, pe, value }),
 }
 
 export function useSetDataValueMutation() {
