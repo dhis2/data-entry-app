@@ -27,6 +27,10 @@ import Limits from './limits.js'
 export default function DataDetailsSidebar() {
     const dataValueSet = useDataValueSet()
     const { item } = useCurrentItemContext()
+    const dataValue = {
+        ...item,
+        ...dataValueSet.data?.dataValues[item.dataElement]?.[item.categoryOptionCombo]
+    }
     const onMarkForFollowup = () => null
     const onUnmarkForFollowup = () => null
     const [periodId] = usePeriodId()
@@ -37,12 +41,12 @@ export default function DataDetailsSidebar() {
     const rightHandPanel = useRightHandPanelContext()
 
     const dataValueContextQueryKey = queryKeyFactory.dataValueContext.byParams({
-        dataElementId: item.dataElement,
+        dataElementId: dataValue.dataElement,
         periodId: periodId,
         orgUnitId: orgUnitId,
         categoryOptionIds: attributeOptions,
         categoryComboId: attributeCombo,
-        categoryOptionComboId: item.categoryOptionCombo,
+        categoryOptionComboId: dataValue.categoryOptionCombo,
     })
 
     const dataValueContext = useQuery(dataValueContextQueryKey, {
@@ -50,8 +54,8 @@ export default function DataDetailsSidebar() {
     })
 
     const minMaxValue = dataValueSet.data?.minMaxValues.find((curMinMaxValue) => (
-        curMinMaxValue.categoryOptionCombo === item.categoryOptionCombo &&
-        curMinMaxValue.dataElement === item.dataElement &&
+        curMinMaxValue.categoryOptionCombo === dataValue.categoryOptionCombo &&
+        curMinMaxValue.dataElement === dataValue.dataElement &&
         curMinMaxValue.orgUnit === orgUnitId
     )) || {}
 
@@ -65,7 +69,7 @@ export default function DataDetailsSidebar() {
             <Title onClose={rightHandPanel.hide}>{i18n.t('Details')}</Title>
 
             <BasicInformation
-                item={item}
+                item={dataValue}
                 onMarkForFollowup={onMarkForFollowup}
                 onUnmarkForFollowup={onUnmarkForFollowup}
             />
@@ -74,12 +78,12 @@ export default function DataDetailsSidebar() {
 
             <ExpandableUnit
                 title={i18n.t('Minimum and maximum limits')}
-                disabled={!item.canHaveLimits}
+                disabled={!dataValue.canHaveLimits}
             >
                 <Limits
-                    valueType={item.valueType}
-                    dataElementId={item.dataElement}
-                    categoryOptionComboId={item.categoryOptionCombo}
+                    valueType={dataValue.valueType}
+                    dataElementId={dataValue.dataElement}
+                    categoryOptionComboId={dataValue.categoryOptionCombo}
                     limits={limits}
                 />
             </ExpandableUnit>
