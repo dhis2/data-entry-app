@@ -10,12 +10,18 @@ import throttle from 'lodash.throttle'
 const createIDBPersister = (idbValidKey = 'reactQuery') => {
     // Throttle persisting by a second to ensure that we're not writing to the cache
     // more than once per second. Otherwise we'd potentially slow down the app.
-    const persistClient = throttle((client) => set(idbValidKey, client), 1000)
+    const persistClient = throttle((client) => {
+        console.log('persisting')
+        console.log(client)
+        set(idbValidKey, client)
+    }, 1000)
 
     return {
         persistClient,
-        restoreClient: () => {
-            return get(idbValidKey)
+        restoreClient: async () => {
+            const restored = await get(idbValidKey)
+            console.log('restored', restored)
+            return restored
         },
         removeClient: () => {
             return del(idbValidKey)

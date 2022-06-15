@@ -32,7 +32,25 @@ const useQueryClient = () => {
             dehydrateQueries: true,
             shouldDehydrateQuery: (query) => {
                 const isSuccess = query.state.status === 'success'
-                const shouldPersist = query?.meta?.persist === true
+                let shouldPersist = query?.meta?.persist === true
+                const [key] = query.queryKey
+                const [keyStr, keyObj] = key
+
+                if (
+                    keyStr.startsWith('optionSets') &&
+                    keyObj.params?.fields ===
+                        'id,version,options[id,displayFormName]'
+                ) {
+                    shouldPersist = true
+                }
+                // if (key.startsWith('optionSets')) {
+                //     console.log(
+                //         'query',
+                //         query,
+                //         ' should persist:',
+                //         shouldPersist
+                //     )
+                // }
 
                 return isSuccess && shouldPersist
             },
