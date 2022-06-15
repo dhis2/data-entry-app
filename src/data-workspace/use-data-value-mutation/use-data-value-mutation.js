@@ -2,12 +2,19 @@ import { useQueryClient, useMutation } from 'react-query'
 import useDataValueSetQueryKey from '../use-data-value-set-query-key.js'
 import useApiError from './use-api-error.js'
 
-export default function useDataValueMutation({ mutationFn, onMutate }) {
+export default function useDataValueMutation({
+    mutationFn,
+    onMutate,
+    onSuccess,
+}) {
     const queryClient = useQueryClient()
     const dataValueSetQueryKey = useDataValueSetQueryKey()
     const { onError: handleMutationError } = useApiError()
 
     return useMutation(mutationFn, {
+        // optionally hooks can use this
+        onSuccess,
+
         retry: 1,
 
         // Used to identify whether this mutation is running
