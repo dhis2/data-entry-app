@@ -21,12 +21,21 @@ export default function useDataValueMutation({
         mutationKey: dataValueSetQueryKey,
 
         // Optimistic update of the react-query cache
-        onMutate: (newDataValue) =>
-            onMutate({
+        onMutate: async (newDataValue) => {
+            // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+            await queryClient.cancelQueries(dataValueSetQueryKey)
+
+            // Snapshot the previous value
+            const previousDataValueSet = queryClient.getQueryData(dataValueSetQueryKey)
+
+            await onMutate({
                 queryClient,
                 newDataValue,
                 dataValueSetQueryKey,
-            }),
+            })
+
+            return { previousDataValueSet, dataValueSetQueryKey }
+        },
 
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, newDataValue, context) => {
