@@ -7,7 +7,7 @@ import getMinMaxValueIndex from './get-min-max-value-index.js'
 function addLimit(previousDataValueSet, newLimit) {
     return {
         ...previousDataValueSet,
-        minMaxValues: previousDataValueSet.minMaxValues
+        minMaxValues: previousDataValueSet?.minMaxValues
             ? [...previousDataValueSet.minMaxValues, newLimit]
             : [newLimit],
     }
@@ -93,7 +93,7 @@ export default function useUpdateLimits(onDone) {
             // Optimistically update to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
                 // dataValueSet.minMaxValues can be undefined
-                const previousMinMaxValues = previousDataValueSet.minMaxValues || []
+                const previousMinMaxValues = previousDataValueSet?.minMaxValues || []
                 const matchIndex = getMinMaxValueIndex(previousMinMaxValues, variables)
                 const isNewLimit = matchIndex === -1
 
