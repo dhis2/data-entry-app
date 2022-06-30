@@ -31,8 +31,19 @@ export default function DataItemBar() {
                     `| ${categoryOptionComboDisplayName}`}
             </span>
 
-            <Button small onClick={() => rightHandPanel.show('data-details')}>
-                {i18n.t('View details')}
+            <Button
+                small
+                onClick={() => {
+                    rightHandPanel.id
+                        ? rightHandPanel.hide()
+                        : rightHandPanel.show('data-details')
+                }}
+            >
+                {
+                    rightHandPanel.id
+                        ? i18n.t('Hide details')
+                        : i18n.t('View details')
+                }
             </Button>
         </div>
     )

@@ -34,12 +34,11 @@ function canItemHaveLimits(de) {
 function createCurrentItem({ de, coc, dataValueSet }) {
     const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
     const canHaveLimits = canItemHaveLimits(de)
-    const existingItem = dataValueSet?.data?.dataValues[de.id]?.[coc.id]
 
     if (dataValue) {
-        const limits = canHaveLimits ? {} : {
-            min: existingItem.min,
-            max: existingItem.min,
+        const limits = !canHaveLimits ? {} : {
+            min: dataValue.min,
+            max: dataValue.min,
         }
 
         return {
@@ -144,7 +143,6 @@ export function EntryFieldInput({
 
     const onFocus = () => {
         setCurrentItem(currentItem)
-        rightHandPanel.hide()
     }
 
     const sharedProps = {
