@@ -89,15 +89,22 @@ export default function CommentUnit({ item }) {
 
     return (
         <>
-            <p className={item.comment ? styles.comment : styles.placeholder}>
+            {item.comment && (
                 <pre
                     // Using <pre /> so text area line
                     // breaks are displayed correctly
-                    className={styles.commentValue}
+                    className={styles.comment}
                 >
-                    {item.comment ? item.comment : i18n.t('No comment for this data item.')}
+                    {item.comment}
                 </pre>
-            </p>
+            )}
+
+            {!item.comment && (
+                <p className={item.comment ? styles.comment : styles.placeholder}>
+                    {i18n.t('No comment for this data item.')}
+                </p>
+            )}
+
             <Button small secondary onClick={() => setEditing(true)}>
                 {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
             </Button>
