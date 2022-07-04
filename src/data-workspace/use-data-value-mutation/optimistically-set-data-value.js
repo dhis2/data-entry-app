@@ -15,10 +15,6 @@ export default async function optimisticallySetDataValue({
         const previousDataValues = previousDataValueSet.dataValues || []
         const matchIndex = getDataValueIndex(previousDataValues, newDataValue)
         const isNewDataValue = matchIndex === -1
-
-        // If this is a file-type data value, set value to some file metadata
-        // so it's available offline. When DVSets is refetched, the value will
-        // be replaced by a UID that will be handled in the FileResourceInput components
         const newValue = newDataValue.value
 
         // If the field was previously empty the dataValue won't exist yet
