@@ -1,7 +1,6 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
-import { useContextSelection } from '../../context-selection/index.js'
-import { dataValueSets } from '../query-key-factory.js'
+import useDataValueSetQueryKey from '../use-data-value-set-query-key.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
 function addLimit(previousDataValueSet, newLimit) {
@@ -49,9 +48,7 @@ const MUTATION_UPDATE_MIN_MAX_LIMITS = {
 export default function useUpdateLimits(onDone) {
     // These are needed for the optimistic update
     const queryClient = useQueryClient()
-    const [{ dataSetId: ds, orgUnitId: ou, periodId: pe }] =
-        useContextSelection()
-    const dataValueSetQueryKey = dataValueSets.byIds({ ds, pe, ou })
+    const dataValueSetQueryKey = useDataValueSetQueryKey()
 
     const engine = useDataEngine()
     const showErrorAlert = useAlert((message) => message, { critical: true })
