@@ -12,7 +12,10 @@ export default async function optimisticallySetDataValue({
     await queryClient.cancelQueries(dataValueSetQueryKey)
 
     // Snapshot the previous value
-    const previousDataValueSet = queryClient.getQueryData(dataValueSetQueryKey)
+    // TODO: remove `|| {}` this was only added because I've disabled
+    // some things while debugging some performance issues
+    const previousDataValueSet =
+        queryClient.getQueryData(dataValueSetQueryKey) || {}
 
     // Optimistically update to the new value
     queryClient.setQueryData(dataValueSetQueryKey, () => {

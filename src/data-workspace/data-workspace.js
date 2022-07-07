@@ -10,15 +10,22 @@ import {
     useIsValidSelection,
 } from '../context-selection/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
+// import { usePropertyRenderDiffer } from '../shared/utils.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { useDataValueSet } from './use-data-value-set.js'
+// import { useDataValueSet } from './use-data-value-set.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
+    // const compare = usePropertyRenderDiffer()
     const [{ dataSetId }] = useContextSelection()
     const { data } = useMetadata()
-    const initialDataValuesFetch = useDataValueSet()
+    // const initialDataValuesFetch = useDataValueSet()
+    const initialDataValuesFetch = {
+        data: {
+            dataValues: {},
+        },
+    }
     const isValidSelection = useIsValidSelection()
 
     if (selectionHasNoFormMessage) {
@@ -53,6 +60,15 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     const footerClasses = classNames(styles.footer, 'hide-for-print')
+
+    // compare({
+    //     dataSetId,
+    //     data,
+    //     initialValues: initialDataValuesFetch.data?.dataValues,
+    //     isValidSelection,
+    //     selectionHasNoFormMessage,
+    //     dataSet,
+    // })
 
     return (
         <FinalFormWrapper

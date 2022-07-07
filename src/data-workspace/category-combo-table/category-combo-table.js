@@ -31,7 +31,9 @@ export const CategoryComboTable = ({
     renderColumnTotals,
 }) => {
     const { data: metadata } = useMetadata()
-    const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
+    // const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
+    const activeDeId = ''
+    const activeCocId = ''
 
     const categories = selectors.getCategoriesByCategoryComboId(
         metadata,

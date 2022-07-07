@@ -24,6 +24,7 @@ export function FinalFormWrapper({ children, dataValueSet }) {
             }}
             initialValues={initialValues}
             keepDirtyOnReinitialize
+            subscription={{}}
         >
             {() => children}
         </Form>
