@@ -2,19 +2,22 @@ import i18n from '@dhis2/d2-i18n'
 import { IconChevronUp24, IconChevronDown24, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './expandable-unit.module.css'
 
-const ExpandableUnit = ({ title, children, initiallyOpen, disabled }) => {
-    const [open, setOpen] = useState(initiallyOpen)
+const ExpandableUnit = ({ title, children, disabled, open, onToggle }) => {
     const chevronColor = disabled ? colors.grey400 : colors.grey700
     const handleClick = (event) => {
         event.preventDefault()
+
         if (disabled) {
             return
         }
-        setOpen(!open)
+
+        onToggle(!open)
     }
+
+    const Icon = open ? IconChevronUp24 : IconChevronDown24
 
     return (
         <details
@@ -30,11 +33,7 @@ const ExpandableUnit = ({ title, children, initiallyOpen, disabled }) => {
                 onClick={handleClick}
             >
                 {disabled ? i18n.t('{{title}} (disabled)', { title }) : title}
-                {open ? (
-                    <IconChevronUp24 color={chevronColor} />
-                ) : (
-                    <IconChevronDown24 color={chevronColor} />
-                )}
+                <Icon color={chevronColor} />
             </summary>
             <div className={styles.content}>{open ? children : null}</div>
         </details>
@@ -42,10 +41,11 @@ const ExpandableUnit = ({ title, children, initiallyOpen, disabled }) => {
 }
 
 ExpandableUnit.propTypes = {
+    open: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
+    onToggle: PropTypes.func.isRequired,
     children: PropTypes.node,
     disabled: PropTypes.bool,
-    initiallyOpen: PropTypes.bool,
 }
 
 ExpandableUnit.defaultProps = {

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-18T13:49:50.868Z\n"
-"PO-Revision-Date: 2022-07-18T13:49:50.868Z\n"
+"POT-Creation-Date: 2022-07-18T13:50:14.836Z\n"
+"PO-Revision-Date: 2022-07-18T13:50:14.836Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -178,23 +178,17 @@ msgstr "Value"
 msgid "Totals"
 msgstr "Totals"
 
-msgid "{{user}} set to {{value}}"
-msgstr "{{user}} set to {{value}}"
-
-msgid "{{user}} updated to {{value}} (was {{prevValue}})"
-msgstr "{{user}} updated to {{value}} (was {{prevValue}})"
-
-msgid "{{user}} deleted (was {{prevValue}})"
-msgstr "{{user}} deleted (was {{prevValue}})"
-
 msgid "Audit log"
 msgstr "Audit log"
+
+msgid "Something went wrong loading the audit log"
+msgstr "Something went wrong loading the audit log"
 
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
 
-msgid "No audit log for this data item"
-msgstr "No audit log for this data item"
+msgid "Deleted"
+msgstr "Deleted"
 
 msgid "Code: {{code}}"
 msgstr "Code: {{code}}"
@@ -244,14 +238,14 @@ msgstr "Comment"
 msgid "Minimum and maximum limits"
 msgstr "Minimum and maximum limits"
 
-msgid "History and audit"
-msgstr "History and audit"
-
-msgid "Something went wrong loading the history and audit log"
-msgstr "Something went wrong loading the history and audit log"
-
 msgid "History"
 msgstr "History"
+
+msgid "Something went wrong loading the history"
+msgstr "Something went wrong loading the history"
+
+msgid "Show ui for no history"
+msgstr "Show ui for no history"
 
 msgid "Average value: {{avg}}"
 msgstr "Average value: {{avg}}"
