@@ -17,5 +17,5 @@ export default function NoLimits({ onAddLimitsClick }) {
 }
 
 NoLimits.propTypes = {
-    onAddLimitsClick: PropTypes.func.isRequried,
+    onAddLimitsClick: PropTypes.func.isRequired,
 }
