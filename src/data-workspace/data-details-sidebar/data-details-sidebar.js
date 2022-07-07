@@ -5,7 +5,6 @@ import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import {
     Sidebar,
     Title,
-    ExpandableUnit,
     useCurrentItemContext,
     SidebarProps,
 } from '../../shared/index.js'
@@ -49,23 +48,8 @@ export default function DataDetailsSidebar() {
                 onMarkForFollowup={onMarkForFollowup}
                 onUnmarkForFollowup={onUnmarkForFollowup}
             />
-
-            <ExpandableUnit initiallyOpen title={i18n.t('Comment')}>
-                <Comment item={dataValue} />
-            </ExpandableUnit>
-
-            <ExpandableUnit
-                title={i18n.t('Minimum and maximum limits')}
-                disabled={!dataValue.canHaveLimits}
-            >
-                <Limits
-                    valueType={dataValue.valueType}
-                    dataElementId={dataValue.dataElement}
-                    categoryOptionComboId={dataValue.categoryOptionCombo}
-                    limits={limits}
-                />
-            </ExpandableUnit>
-
+            <Comment item={dataValue} />
+            <Limits dataValue={dataValue} limits={limits} />
             <History />
             <AuditLog />
         </Sidebar>

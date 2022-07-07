@@ -9,11 +9,13 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, Field } from 'react-final-form'
 import { useContextSelection } from '../../context-selection/index.js'
+import { ExpandableUnit } from '../../shared/index.js'
 import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
 export default function CommentUnit({ item }) {
+    const [open, setOpen] = useState(true)
     const [{ dataSetId: ds, periodId: pe, orgUnitId: ou }] = useContextSelection()
     const [editing, setEditing] = useState(false)
     const setDataValueComment = useSetDataValueCommentMutation(
@@ -88,7 +90,11 @@ export default function CommentUnit({ item }) {
     }
 
     return (
-        <>
+        <ExpandableUnit
+            title={i18n.t('Comment')}
+            open={open}
+            onToggle={setOpen}
+        >
             {item.comment && (
                 <pre
                     // Using <pre /> so text area line
@@ -108,7 +114,7 @@ export default function CommentUnit({ item }) {
             <Button small secondary onClick={() => setEditing(true)}>
                 {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
             </Button>
-        </>
+        </ExpandableUnit>
     )
 }
 
