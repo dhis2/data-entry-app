@@ -128,9 +128,10 @@ export function EntryFieldInput({
     })
 
     const onKeyDown = (event) => {
-        const { key, shiftKey } = event
+        const { key, ctrlKey, metaKey } = event
+        const ctrlOrMetaKey = ctrlKey ^ metaKey
 
-        if (shiftKey && key === 'Enter') {
+        if (ctrlOrMetaKey && key === 'Enter') {
             rightHandPanel.show('data-details')
         } else if (key === 'ArrowDown' || key === 'Enter') {
             event.preventDefault()
