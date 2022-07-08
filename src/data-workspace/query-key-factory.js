@@ -35,7 +35,7 @@ export const dataValueContext = {
                 ou: orgUnitId,
                 co: categoryOptionComboId,
                 cc: categoryComboId,
-                cp: categoryOptionIds.join(','),
+                cp: categoryOptionIds.join(';'),
             },
         },
     ],
