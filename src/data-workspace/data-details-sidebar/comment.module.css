@@ -1,16 +1,16 @@
 .comment, .placeholder {
     font-size: 14px;
     line-height: 19px;
-    color: var(--colors-grey900);
-    margin: 0;
-    margin-bottom: var(--spacers-dp12);
+    margin: 0 0 var(--spacers-dp12);
 }
 
 .comment {
     padding-left: 6px;
     border-left: 2px solid var(--colors-grey400);
+    color: var(--colors-grey900);
+
+    /* this is a "pre" element, so we need this */
     font-family: inherit;
-    font-size: inherit;
 }
 
 .placeholder {
@@ -18,5 +18,5 @@
 }
 
 .textArea {
-    margin-bottom: var(--spacers-dp8);
+    margin-bottom: var(--spacers-dp12);
 }

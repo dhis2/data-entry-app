@@ -26,13 +26,14 @@ export default function DataItemBar() {
     return (
         <div className={styles.container}>
             <span className={styles.name}>
-                {dataElement.displayShortName}
+                {dataElement.displayName}
                 {categoryOptionComboDisplayName &&
-                    `| ${categoryOptionComboDisplayName}`}
+                    ` | ${categoryOptionComboDisplayName}`}
             </span>
 
             <Button
                 small
+                className={styles.dataDetailsButton}
                 onClick={() => {
                     rightHandPanel.id
                         ? rightHandPanel.hide()

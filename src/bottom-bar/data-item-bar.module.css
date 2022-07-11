@@ -7,5 +7,15 @@
 
 .name {
     display: block;
-    margin-right: 4px;
+    margin-right: 8px;
+    font-size: 13px;
+    line-height: 15px;
+    color: var(--colors-grey800);
+}
+
+/* needed to override specificity of the UI library */
+:global(button):global(.small).dataDetailsButton {
+    font-size: 12px;
+    line-height: 14px;
+    padding: 3px 6px;
 }

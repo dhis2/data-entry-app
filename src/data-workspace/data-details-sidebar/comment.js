@@ -14,42 +14,27 @@ import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
-export default function CommentUnit({ item }) {
-    const [open, setOpen] = useState(true)
+function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
     const [{ dataSetId: ds, periodId: pe, orgUnitId: ou }] = useContextSelection()
-    const [editing, setEditing] = useState(false)
-    const setDataValueComment = useSetDataValueCommentMutation(
-        () => setEditing(false)
-    )
-
-    if (setDataValueComment.isLoading) {
-        return <CircularLoader small />
-    }
-
-    if (setDataValueComment.isError) {
-        return (
-            <LoadingError
-                title={i18n.t(
-                    'There was a problem loading the comment for this data item'
-                )}
-            />
-        )
-    }
-
-    if (editing) {
-        const onSubmit = values => {
-            const variables = {
-                ds,
-                ou,
-                pe,
-                co: item.categoryOptionCombo,
-                de: item.dataElement,
-                comment: values.comment,
-            }
-            return setDataValueComment.mutate(variables)
+    const onSubmit = values => {
+        const variables = {
+            ds,
+            ou,
+            pe,
+            co: item.categoryOptionCombo,
+            de: item.dataElement,
+            comment: values.comment,
         }
 
-        return (
+        return syncComment(variables)
+    }
+
+    return (
+        <ExpandableUnit
+            title={i18n.t('Comment')}
+            open={open}
+            onToggle={setOpen}
+        >
             <Form onSubmit={onSubmit}>
                 {({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
@@ -78,7 +63,7 @@ export default function CommentUnit({ item }) {
                                 small
                                 secondary
                                 disabled={submitting}
-                                onClick={() => setEditing(false)}
+                                onClick={onCancel}
                             >
                                 {i18n.t('Cancel')}
                             </Button>
@@ -86,6 +71,52 @@ export default function CommentUnit({ item }) {
                     </form>
                 )}
             </Form>
+        </ExpandableUnit>
+    )
+}
+
+CommentEditForm.propTypes = {
+    item: PropTypes.shape({
+        categoryOptionCombo: PropTypes.string.isRequired,
+        dataElement: PropTypes.string.isRequired,
+        comment: PropTypes.string,
+    }).isRequired,
+    open: PropTypes.bool.isRequired,
+    setOpen: PropTypes.func.isRequired,
+    syncComment: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+}
+
+export default function CommentUnit({ item }) {
+    const [open, setOpen] = useState(true)
+    const [editing, setEditing] = useState(false)
+    const setDataValueComment = useSetDataValueCommentMutation(
+        () => setEditing(false)
+    )
+
+    if (setDataValueComment.isLoading) {
+        return <CircularLoader small />
+    }
+
+    if (setDataValueComment.isError) {
+        return (
+            <LoadingError
+                title={i18n.t(
+                    'There was a problem loading the comment for this data item'
+                )}
+            />
+        )
+    }
+
+    if (editing) {
+        return (
+            <CommentEditForm
+                item={item}
+                open={open}
+                setOpen={setOpen}
+                syncComment={setDataValueComment.mutate}
+                onCancel={() => setEditing(false)}
+            />
         )
     }
 
