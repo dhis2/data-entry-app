@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { composeValidators } from '@dhis2/ui-forms'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -28,7 +29,28 @@ export default function LimitsFormWrapper({
     }
 
     const validator = validatorsByValueType[valueType]
-    const validateMin = composeValidators(validator, createLessThan('max', limitInputLabelsByName.max))
+    const validateMin = composeValidators(
+        (value, values) => {
+            if (!value && !!values.max) {
+                return i18n.t('A miminum is required when providing a maximum')
+            }
+        },
+        validator,
+        createLessThan('max', limitInputLabelsByName.max)
+    )
+
+    // No need to check whether this is really more
+    // than "min" as "min" is already checking
+    // whether it's less than "max"
+    const validateMax = composeValidators(
+        (value, values) => {
+            if (!value && !!values.min) {
+                return i18n.t('A maximum is required when providing a minimum')
+            }
+        },
+        validator,
+    )
+
     const validate = values => {
         let errors = undefined
 
@@ -41,10 +63,7 @@ export default function LimitsFormWrapper({
             errors.min = minError
         }
 
-        // No need to check whether this is really more
-        // than "min" as "min" is already checking
-        // whether it's less than "max"
-        const maxError = validator(values.max, values)
+        const maxError = validateMax(values.max, values)
         if (maxError) {
             if (!errors) {
                 errors = {}
