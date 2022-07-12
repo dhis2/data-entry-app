@@ -11,6 +11,7 @@ import {
     Tag,
 } from '@dhis2/ui'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { ExpandableUnit, useCurrentItemContext } from '../../shared/index.js'
 import styles from './audit-log.module.css'
@@ -78,8 +79,6 @@ export default function AuditLog() {
         )
     }
 
-    const newToOldAuditLog = sortAuditsByCreatedDate(audits)
-
     return (
         <ExpandableUnit
             title={title}
@@ -96,14 +95,14 @@ export default function AuditLog() {
                             User
                         </DataTableColumnHeader>
                         <DataTableColumnHeader>
-                            New value
+                            Change
                         </DataTableColumnHeader>
                     </DataTableRow>
                 </TableHead>
 
                 <TableBody>
-                    {newToOldAuditLog.map((entry, index) => {
-                        const { modifiedBy: user, value, created, auditType } = entry
+                    {audits.map((audit, index) => {
+                        const { modifiedBy: user, previousValue, value, created, auditType } = audit
 
                         return (
                             <DataTableRow key={index}>
@@ -114,12 +113,14 @@ export default function AuditLog() {
                                     {user}
                                 </DataTableCell>
                                 <DataTableCell>
-                                    <div style={{ textAlign: 'right' }}>
-                                        {
-                                            auditType === 'DELETE'
-                                                ? <Tag negative>{i18n.t('Deleted')}</Tag>
-                                                : value
-                                        }
+                                    <div>
+                                        {auditType === 'DELETE' && <DeletedValue previousValue={previousValue} />}
+                                        {auditType === 'UPDATE' && (
+                                            <UpdatedValue
+                                                value={value}
+                                                previousValue={previousValue}
+                                            />
+                                        )}
                                     </div>
                                 </DataTableCell>
                             </DataTableRow>
@@ -129,4 +130,38 @@ export default function AuditLog() {
             </DataTable>
         </ExpandableUnit>
     )
+}
+
+function DeletedValue({ previousValue }) {
+    return (
+        <>
+            <Tag negative>
+                <span style={{ textDecoration: 'line-through' }}>
+                    {previousValue}
+                </span>
+            </Tag>
+        </>
+    )
+}
+
+DeletedValue.propTypes = {
+    previousValue: PropTypes.string.isRequired,
+}
+
+function UpdatedValue({ value, previousValue }) {
+    return (
+        <>
+            <Tag>{previousValue}</Tag>
+
+            {/* space arrow-right space*/}
+            &nbsp;&rarr;&nbsp;
+
+            <Tag>{value}</Tag>
+        </>
+    )
+}
+
+UpdatedValue.propTypes = {
+    previousValue: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
 }

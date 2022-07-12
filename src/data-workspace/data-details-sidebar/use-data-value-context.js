@@ -6,6 +6,7 @@ import {
 } from '../../context-selection/index.js'
 import { useApiAttributeParams } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
+import processAudits from './process-audits.js'
 
 /**
  * @returns PropTypes.shape({
@@ -36,7 +37,7 @@ import * as queryKeyFactory from '../query-key-factory.js'
  *     }),
  * })
  */
-export default function useDataValueContext(item, enabled, onSuccess) {
+export default function useDataValueContext(item, enabled) {
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
     const { attributeCombo, attributeOptions } = useApiAttributeParams()
@@ -53,6 +54,13 @@ export default function useDataValueContext(item, enabled, onSuccess) {
 
     return useQuery(dataValueContextQueryKey, {
         enabled: enabled && isValidSelection,
-        onSuccess,
+        select: (data) => {
+            const { audits } = data
+
+            return {
+                ...data,
+                audits: processAudits(audits, item),
+            }
+        },
     })
 }
