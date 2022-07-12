@@ -1,8 +1,6 @@
-// @TODO: remove
-/* eslint-disable */
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
-import { useDataValueSetQueryKey } from '../data-workspace/index.js'
+import { useDataValueSetQueryKey } from '../../shared/index.js'
 
 const MUTATION_SET_COMMENT = {
     resource: '/dataEntry/dataValue',

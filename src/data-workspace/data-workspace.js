@@ -10,10 +10,10 @@ import {
     useIsValidSelection,
 } from '../context-selection/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
+import { useDataValueSet } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { useDataValueSet } from './use-data-value-set.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [{ dataSetId }] = useContextSelection()

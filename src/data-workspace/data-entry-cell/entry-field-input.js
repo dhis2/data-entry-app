@@ -11,32 +11,8 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
-import { useDataValueSet } from '../use-data-value-set.js'
 import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
-
-function createCurrentItem({ de, coc, dataValueSet }) {
-    const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
-    if (dataValue) {
-        return {
-            ...dataValue,
-            categoryOptionCombo: coc.id,
-            name: de.displayName,
-            code: de.code,
-        }
-    }
-
-    return {
-        categoryOptionCombo: coc.id,
-        dataElement: de.id,
-        name: de.displayName,
-        lastUpdated: '',
-        followup: false,
-        comment: null,
-        storedBy: null,
-        code: null,
-    }
-}
 
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
@@ -90,13 +66,7 @@ export function EntryFieldInput({
     const { id: deId } = de
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
-    const dataValueSet = useDataValueSet()
-    const currentItem = createCurrentItem({
-        fieldname,
-        de,
-        coc,
-        dataValueSet,
-    })
+    const currentItem = { de, coc }
 
     const onKeyDown = (event) => {
         const { key, shiftKey } = event
