@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-18T13:50:14.836Z\n"
-"PO-Revision-Date: 2022-07-18T13:50:14.836Z\n"
+"POT-Creation-Date: 2022-07-18T13:50:37.378Z\n"
+"PO-Revision-Date: 2022-07-18T13:50:37.378Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -97,8 +97,11 @@ msgstr "Shortcuts"
 msgid "Show details"
 msgstr "Show details"
 
-msgid "Shift + Enter"
-msgstr "Shift + Enter"
+msgid "Ctrl + Enter"
+msgstr "Ctrl + Enter"
+
+msgid "Cmd + Enter"
+msgstr "Cmd + Enter"
 
 msgid "Double click"
 msgstr "Double click"
@@ -208,8 +211,8 @@ msgstr "Unmark for follow-up"
 msgid "Mark for follow-up"
 msgstr "Mark for follow-up"
 
-msgid "There was a problem loading the comment for this data item"
-msgstr "There was a problem loading the comment for this data item"
+msgid "Comment"
+msgstr "Comment"
 
 msgid "Saving..."
 msgstr "Saving..."
@@ -219,6 +222,9 @@ msgstr "Save comment"
 
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid "There was a problem loading the comment for this data item"
+msgstr "There was a problem loading the comment for this data item"
 
 msgid "No comment for this data item."
 msgstr "No comment for this data item."
@@ -231,12 +237,6 @@ msgstr "Add comment"
 
 msgid "Details"
 msgstr "Details"
-
-msgid "Comment"
-msgstr "Comment"
-
-msgid "Minimum and maximum limits"
-msgstr "Minimum and maximum limits"
 
 msgid "History"
 msgstr "History"
@@ -261,6 +261,15 @@ msgstr "Maximum"
 
 msgid "Edit"
 msgstr "Edit"
+
+msgid "A miminum is required when providing a maximum"
+msgstr "A miminum is required when providing a maximum"
+
+msgid "A maximum is required when providing a minimum"
+msgstr "A maximum is required when providing a minimum"
+
+msgid "Minimum and maximum limits"
+msgstr "Minimum and maximum limits"
 
 msgid "Try again, or contact your system administrator."
 msgstr "Try again, or contact your system administrator."
