@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import { useSetCurrentItemContext } from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
@@ -66,9 +66,8 @@ export function EntryFieldInput({
     const { id: deId } = de
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
-    const currentItem = { de, coc }
 
-    const onKeyDown = (event) => {
+    const onKeyDown = useCallback((event) => {
         const { key, shiftKey } = event
 
         if (shiftKey && key === 'Enter') {
@@ -80,21 +79,28 @@ export function EntryFieldInput({
             event.preventDefault()
             focusPrev()
         }
-    }
+    }, [rightHandPanel])
 
-    const onFocus = () => {
-        setCurrentItem(currentItem)
+    const onFocus = useCallback(() => {
+        setCurrentItem({ de, coc })
         rightHandPanel.hide()
-    }
+    }, [de, coc, setCurrentItem, rightHandPanel])
 
-    const sharedProps = {
+    const sharedProps = useMemo(() => ({
         fieldname,
         dataValueParams,
         disabled,
         setSyncStatus,
         onFocus,
         onKeyDown,
-    }
+    }), [
+        fieldname,
+        dataValueParams,
+        disabled,
+        setSyncStatus,
+        onFocus,
+        onKeyDown,
+    ])
 
     return <InputComponent sharedProps={sharedProps} de={de} />
 }

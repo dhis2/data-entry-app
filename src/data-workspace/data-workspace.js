@@ -53,11 +53,10 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     const footerClasses = classNames(styles.footer, 'hide-for-print')
+    const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FinalFormWrapper
-            dataValueSet={initialDataValuesFetch.data?.dataValues}
-        >
+        <FinalFormWrapper dataValueSet={dataValueSet}>
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>

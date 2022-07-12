@@ -16,3 +16,13 @@ export default createContext({
         throw new Error('Context function "hide" not set')
     },
 })
+
+export const ShowRightHandPanelContext = createContext((id) => {
+    throw new Error(
+        `Context function "show" not set, tried to show id "${id}"`
+    )
+})
+
+export const HideRightHandPanelContext = createContext(() => {
+    throw new Error('Context function "hide" not set')
+})
