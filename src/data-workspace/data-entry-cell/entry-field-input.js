@@ -67,40 +67,46 @@ export function EntryFieldInput({
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
 
-    const onKeyDown = useCallback((event) => {
-        const { key, shiftKey } = event
+    const onKeyDown = useCallback(
+        (event) => {
+            const { key, shiftKey } = event
 
-        if (shiftKey && key === 'Enter') {
-            rightHandPanel.show('data-details')
-        } else if (key === 'ArrowDown' || key === 'Enter') {
-            event.preventDefault()
-            focusNext()
-        } else if (key === 'ArrowUp') {
-            event.preventDefault()
-            focusPrev()
-        }
-    }, [rightHandPanel])
+            if (shiftKey && key === 'Enter') {
+                rightHandPanel.show('data-details')
+            } else if (key === 'ArrowDown' || key === 'Enter') {
+                event.preventDefault()
+                focusNext()
+            } else if (key === 'ArrowUp') {
+                event.preventDefault()
+                focusPrev()
+            }
+        },
+        [rightHandPanel]
+    )
 
     const onFocus = useCallback(() => {
         setCurrentItem({ de, coc })
         rightHandPanel.hide()
     }, [de, coc, setCurrentItem, rightHandPanel])
 
-    const sharedProps = useMemo(() => ({
-        fieldname,
-        dataValueParams,
-        disabled,
-        setSyncStatus,
-        onFocus,
-        onKeyDown,
-    }), [
-        fieldname,
-        dataValueParams,
-        disabled,
-        setSyncStatus,
-        onFocus,
-        onKeyDown,
-    ])
+    const sharedProps = useMemo(
+        () => ({
+            fieldname,
+            dataValueParams,
+            disabled,
+            setSyncStatus,
+            onFocus,
+            onKeyDown,
+        }),
+        [
+            fieldname,
+            dataValueParams,
+            disabled,
+            setSyncStatus,
+            onFocus,
+            onKeyDown,
+        ]
+    )
 
     return <InputComponent sharedProps={sharedProps} de={de} />
 }
