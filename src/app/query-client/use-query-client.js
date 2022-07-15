@@ -1,10 +1,14 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { QueryClient } from 'react-query'
-import { persistQueryClient } from 'react-query/persistQueryClient'
 import createQueryFn from './create-query-fn.js'
-import createIDBPersister from './persister.js'
 
-const queryClient = new QueryClient()
+const logger = {
+    log: console.log,
+    warn: console.warn,
+    error: () => {},
+}
+
+const queryClient = new QueryClient({ logger })
 
 const useQueryClient = () => {
     const engine = useDataEngine()
@@ -18,24 +22,6 @@ const useQueryClient = () => {
             cacheTime: Infinity,
             // https://react-query-alpha.tanstack.com/guides/network-mode
             networkMode: 'offlineFirst',
-        },
-    })
-
-    const persister = createIDBPersister()
-
-    persistQueryClient({
-        queryClient,
-        persister,
-        maxAge: Infinity,
-        dehydrateOptions: {
-            dehydrateMutations: true,
-            dehydrateQueries: true,
-            shouldDehydrateQuery: (query) => {
-                const isSuccess = query.state.status === 'success'
-                const shouldPersist = query?.meta?.persist === true
-
-                return isSuccess && shouldPersist
-            },
         },
     })
 

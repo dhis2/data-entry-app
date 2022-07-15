@@ -9,11 +9,7 @@ export default function useSelectorBarItemValue() {
     // data set.
     // const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
 
-    if (
-        userOrgUnits.loading ||
-        orgUnit.loading
-        // || dataSetOrgUnitPaths.loading
-    ) {
+    if (userOrgUnits.loading || orgUnit.loading) {
         return i18n.t('Fetching organisation unit info')
     }
 

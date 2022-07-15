@@ -12,16 +12,12 @@ export default function useOrgUnit() {
             },
         },
     ]
-    const {
-        isLoading: loading,
-        error,
-        data,
-    } = useQuery(queryKey, {
+    const { isFetching, error, data } = useQuery(queryKey, {
         enabled: !!id,
     })
 
     return {
-        loading,
+        loading: isFetching,
         error,
         data,
     }
