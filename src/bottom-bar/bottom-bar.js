@@ -1,11 +1,11 @@
 import React from 'react'
-import { useCurrentItemContext } from '../shared/index.js'
+import { useHighlightedFieldIdsContext } from '../shared/index.js'
 import styles from './bottom-bar.module.css'
 import DataItemBar from './data-item-bar.js'
 import MainToolBar from './main-tool-bar.js'
 
 export default function BottomBar() {
-    const { item } = useCurrentItemContext()
+    const { item } = useHighlightedFieldIdsContext()
     const showDataItemBar = !!item
 
     return (

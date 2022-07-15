@@ -35,6 +35,7 @@ export const SectionFormSection = React.memo(function SectionFormSection({
         dataSetId,
         section.id
     )
+
     const groupedDataElements = section.disableDataElementAutoGroup
         ? selectors.getGroupedDataElementsByCatComboInOrder(data, dataElements)
         : selectors.getGroupedDataElementsByCatCombo(data, dataElements)

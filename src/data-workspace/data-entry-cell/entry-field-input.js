@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
-import { useSetCurrentItemContext } from '../../shared/index.js'
+import { useSetHighlightedFieldIdsContext } from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
@@ -61,7 +61,7 @@ export function EntryFieldInput({
     setSyncStatus,
     disabled,
 }) {
-    const setCurrentItem = useSetCurrentItemContext()
+    const setHighlightedFieldIds = useSetHighlightedFieldIdsContext()
     const rightHandPanel = useRightHandPanelContext()
     const { id: deId } = de
     const { id: cocId } = coc
@@ -85,9 +85,9 @@ export function EntryFieldInput({
     )
 
     const onFocus = useCallback(() => {
-        setCurrentItem({ de, coc })
+        setHighlightedFieldIds({ de, coc })
         rightHandPanel.hide()
-    }, [de, coc, setCurrentItem, rightHandPanel])
+    }, [de, coc, setHighlightedFieldIds, rightHandPanel])
 
     const sharedProps = useMemo(
         () => ({

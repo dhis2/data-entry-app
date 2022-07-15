@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDataValueSet } from '../use-data-value-set/index.js'
-import { useCurrentItemContext } from './use-current-item-context.js'
+import { useHighlightedFieldIdsContext } from './use-highlighted-field-context.js'
 
-function createCurrentItem({ de, coc, dataValueSet }) {
+function gatherHighlightedFieldIds({ de, coc, dataValueSet }) {
     const dataValue = dataValueSet?.dataValues[de.id]?.[coc.id]
 
     if (dataValue) {
@@ -26,13 +26,13 @@ function createCurrentItem({ de, coc, dataValueSet }) {
     }
 }
 
-export default function useCreateCurrentItem() {
+export default function useHighlightedField() {
     const { data: dataValueSet } = useDataValueSet()
-    const { item } = useCurrentItemContext()
-    const [currentItem, setCurrentItem] = useState(() => {
+    const { item } = useHighlightedFieldIdsContext()
+    const [currentItem, setHighlightedFieldIds] = useState(() => {
         if (dataValueSet) {
             const { de, coc } = item
-            return createCurrentItem({ de, coc, dataValueSet })
+            return gatherHighlightedFieldIds({ de, coc, dataValueSet })
         }
 
         return null
@@ -40,8 +40,9 @@ export default function useCreateCurrentItem() {
 
     useEffect(() => {
         const { de, coc } = item
-        const nextCurrentItem = createCurrentItem({ de, coc, dataValueSet })
-        setCurrentItem(nextCurrentItem)
+        setHighlightedFieldIds(
+            gatherHighlightedFieldIds({ de, coc, dataValueSet })
+        )
     }, [item, dataValueSet])
 
     return currentItem
