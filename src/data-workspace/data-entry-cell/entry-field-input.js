@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
-import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
+import { useShowRightHandPanel, useHideRightHandPanel } from '../../right-hand-panel/index.js'
 import { useSetHighlightedFieldIdsContext } from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
@@ -62,7 +62,8 @@ export function EntryFieldInput({
     disabled,
 }) {
     const setHighlightedFieldIds = useSetHighlightedFieldIdsContext()
-    const rightHandPanel = useRightHandPanelContext()
+    const showRightHandPanel = useShowRightHandPanel()
+    const hideRightHandPanel = useHideRightHandPanel()
     const { id: deId } = de
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
@@ -72,7 +73,7 @@ export function EntryFieldInput({
             const { key, shiftKey } = event
 
             if (shiftKey && key === 'Enter') {
-                rightHandPanel.show('data-details')
+                showRightHandPanel('data-details')
             } else if (key === 'ArrowDown' || key === 'Enter') {
                 event.preventDefault()
                 focusNext()
@@ -81,13 +82,13 @@ export function EntryFieldInput({
                 focusPrev()
             }
         },
-        [rightHandPanel]
+        [showRightHandPanel]
     )
 
     const onFocus = useCallback(() => {
         setHighlightedFieldIds({ de, coc })
-        rightHandPanel.hide()
-    }, [de, coc, setHighlightedFieldIds, rightHandPanel])
+        hideRightHandPanel()
+    }, [de, coc, setHighlightedFieldIds, hideRightHandPanel])
 
     const sharedProps = useMemo(
         () => ({

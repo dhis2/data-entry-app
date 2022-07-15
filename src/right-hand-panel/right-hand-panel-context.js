@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-export default createContext({
+export const RightHandPanelContext = createContext({
     // used to identify which sidebar content should be displayed
     id: '',
 
