@@ -1,3 +1,5 @@
 export { default as RightHandPanel } from './right-hand-panel.js'
 export { default as RightHandPanelProvider } from './right-hand-panel-provider.js'
+export { default as useHideRightHandPanel } from './use-hide-right-hand-panel.js'
 export { default as useRightHandPanelContext } from './use-right-hand-panel-context.js'
+export { default as useShowRightHandPanel } from './use-show-right-hand-panel.js'

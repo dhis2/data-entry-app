@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-export default createContext({
+export const RightHandPanelContext = createContext({
     // used to identify which sidebar content should be displayed
     id: '',
 
@@ -15,4 +15,12 @@ export default createContext({
     hide: () => {
         throw new Error('Context function "hide" not set')
     },
+})
+
+export const ShowRightHandPanelContext = createContext((id) => {
+    throw new Error(`Context function "show" not set, tried to show id "${id}"`)
+})
+
+export const HideRightHandPanelContext = createContext(() => {
+    throw new Error('Context function "hide" not set')
 })

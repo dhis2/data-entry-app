@@ -1,5 +1,5 @@
-import { useQuery, useIsMutating } from 'react-query'
-import { useIsValidSelection } from '../context-selection/index.js'
+import { useQuery } from 'react-query'
+import { useIsValidSelection } from '../../context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
@@ -45,24 +45,25 @@ function mapDataValuesToFormInitialValues(dataValues) {
     return formInitialValues
 }
 
+const select = (data) => {
+    const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
+    const minMaxValues = data.minMaxValues || {}
+    return { dataValues, minMaxValues }
+}
+
+const meta = { persist: true }
+
 export const useDataValueSet = () => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
-    const activeMutations = useIsMutating({ mutationKey: queryKey })
 
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
-        enabled: activeMutations === 0 && isValidSelection,
-        select: (data) => {
-            const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
-            const minMaxValues = data.minMaxValues || {}
-            return { dataValues, minMaxValues }
-        },
+        enabled: isValidSelection,
+        select,
         // Only fetch whilst offline, to prevent optimistic updates from being overwritten
         networkMode: 'online',
-        meta: {
-            persist: true,
-        },
+        meta,
     })
 
     return result

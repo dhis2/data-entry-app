@@ -15,14 +15,18 @@ function createInitialValues(dataValueSet) {
     })
 }
 
+const onSubmit = (values, form) => console.log({ values, form })
+
+const subscriptions = {}
+
 export function FinalFormWrapper({ children, dataValueSet }) {
     const initialValues = createInitialValues(dataValueSet)
+
     return (
         <Form
-            onSubmit={(values, form) => {
-                console.log({ values, form })
-            }}
+            onSubmit={onSubmit}
             initialValues={initialValues}
+            subscriptions={subscriptions}
             keepDirtyOnReinitialize
         >
             {() => children}

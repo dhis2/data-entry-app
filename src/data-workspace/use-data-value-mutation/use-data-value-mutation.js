@@ -1,5 +1,5 @@
 import { useQueryClient, useMutation } from 'react-query'
-import useDataValueSetQueryKey from '../use-data-value-set-query-key.js'
+import { useDataValueSetQueryKey } from '../../shared/index.js'
 import useApiError from './use-api-error.js'
 
 export default function useDataValueMutation({ mutationFn, onMutate }) {
