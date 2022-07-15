@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDataValueSet } from '../use-data-value-set/index.js'
 import { useHighlightedFieldIdsContext } from './use-highlighted-field-context.js'
 
-function gatherHighlightedFieldIds({ de, coc, dataValueSet }) {
+function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
     const dataValue = dataValueSet?.dataValues[de.id]?.[coc.id]
 
     if (dataValue) {
@@ -32,7 +32,7 @@ export default function useHighlightedField() {
     const [currentItem, setHighlightedFieldIds] = useState(() => {
         if (dataValueSet) {
             const { de, coc } = item
-            return gatherHighlightedFieldIds({ de, coc, dataValueSet })
+            return gatherHighlightedFieldData({ de, coc, dataValueSet })
         }
 
         return null
@@ -41,7 +41,7 @@ export default function useHighlightedField() {
     useEffect(() => {
         const { de, coc } = item
         setHighlightedFieldIds(
-            gatherHighlightedFieldIds({ de, coc, dataValueSet })
+            gatherHighlightedFieldData({ de, coc, dataValueSet })
         )
     }, [item, dataValueSet])
 
