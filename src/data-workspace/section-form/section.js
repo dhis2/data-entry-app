@@ -16,7 +16,7 @@ import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
 import styles from './section.module.css'
 
-export const SectionFormSection = React.memo(function SectionFormSection({
+export function SectionFormSection({
     section,
     dataSetId,
     globalFilterText,
@@ -49,14 +49,14 @@ export const SectionFormSection = React.memo(function SectionFormSection({
 
     const greyedFields = useMemo(
         () =>
-            new Set(
-                section.greyedFields.map((greyedField) =>
-                    getFieldId(
-                        greyedField.dataElement.id,
-                        greyedField.categoryOptionCombo.id
-                    )
+        new Set(
+            section.greyedFields.map((greyedField) =>
+                getFieldId(
+                    greyedField.dataElement.id,
+                    greyedField.categoryOptionCombo.id
                 )
-            ),
+            )
+        ),
         [section.greyedFields]
     )
 
@@ -65,19 +65,19 @@ export const SectionFormSection = React.memo(function SectionFormSection({
 
     const cells = useMemo(
         () =>
-            groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
-                <CategoryComboTableBody
-                    key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
-                    categoryCombo={categoryCombo}
-                    dataElements={dataElements}
-                    filterText={filterText}
-                    globalFilterText={globalFilterText}
-                    maxColumnsInSection={maxColumnsInSection}
-                    renderRowTotals={section.showRowTotals}
-                    renderColumnTotals={section.showColumnTotals}
-                    greyedFields={greyedFields}
-                />
-            )),
+        groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
+            <CategoryComboTableBody
+                key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
+                categoryCombo={categoryCombo}
+                dataElements={dataElements}
+                filterText={filterText}
+                globalFilterText={globalFilterText}
+                maxColumnsInSection={maxColumnsInSection}
+                renderRowTotals={section.showRowTotals}
+                renderColumnTotals={section.showColumnTotals}
+                greyedFields={greyedFields}
+            />
+        )),
         [
             section.showRowTotals,
             section.showColumnTotals,
@@ -101,7 +101,7 @@ export const SectionFormSection = React.memo(function SectionFormSection({
                             {section.description && (
                                 <div className={styles.description}>
                                     {section.description ||
-                                        'Placeholder section description'}
+                                            'Placeholder section description'}
                                 </div>
                             )}
                         </div>
@@ -123,7 +123,7 @@ export const SectionFormSection = React.memo(function SectionFormSection({
                                 )}
                                 value={filterText}
                                 onChange={({ target }) =>
-                                    setFilterText(target.value)
+                                        setFilterText(target.value)
                                 }
                                 className={styles.filterInput}
                             />
@@ -143,7 +143,7 @@ export const SectionFormSection = React.memo(function SectionFormSection({
             )}
         </Table>
     )
-})
+}
 
 SectionFormSection.propTypes = {
     dataSetId: PropTypes.string,

@@ -13,7 +13,7 @@ const formTypeToComponent = {
     CUSTOM: CustomForm,
 }
 
-export const EntryForm = ({ dataSet }) => {
+export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
     const formType = dataSet.formType
     const Component = formTypeToComponent[formType]
@@ -33,7 +33,7 @@ export const EntryForm = ({ dataSet }) => {
             <Component dataSet={dataSet} globalFilterText={globalFilterText} />
         </>
     )
-}
+})
 
 EntryForm.propTypes = {
     dataSet: PropTypes.shape({
