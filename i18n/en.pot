@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-18T13:50:37.378Z\n"
-"PO-Revision-Date: 2022-07-18T13:50:37.378Z\n"
+"POT-Creation-Date: 2022-07-18T13:53:55.997Z\n"
+"PO-Revision-Date: 2022-07-18T13:53:55.997Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -189,9 +189,6 @@ msgstr "Something went wrong loading the audit log"
 
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
-
-msgid "Deleted"
-msgstr "Deleted"
 
 msgid "Code: {{code}}"
 msgstr "Code: {{code}}"

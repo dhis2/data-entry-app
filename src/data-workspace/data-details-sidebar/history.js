@@ -1,5 +1,6 @@
+import { useOnlineStatus } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, NoticeBox } from '@dhis2/ui'
+import { CircularLoader, NoticeBox, Tooltip } from '@dhis2/ui'
 import React from 'react'
 import { ExpandableUnit, useCurrentItemContext } from '../../shared/index.js'
 import HistoryLineChart from './history-line-chart.js'
@@ -9,11 +10,12 @@ import useOpenState from './use-open-state.js'
 const title = i18n.t('History')
 
 export default function History() {
+    const { offline } = useOnlineStatus()
     const { item } = useCurrentItemContext()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
 
-    if (!open || dataValueContext.isLoading) {
+    if (!offline && (!open || dataValueContext.isLoading)) {
         return (
             <ExpandableUnit title={title} open={open} onToggle={setOpen}>
                 <CircularLoader />
@@ -21,7 +23,7 @@ export default function History() {
         )
     }
 
-    if (dataValueContext.error) {
+    if (!offline && dataValueContext.error) {
         return (
             <ExpandableUnit title={title} open={open} onToggle={setOpen}>
                 <NoticeBox
@@ -30,6 +32,19 @@ export default function History() {
                     <p>{dataValueContext.error.toString()}</p>
                 </NoticeBox>
             </ExpandableUnit>
+        )
+    }
+
+    if (offline && !dataValueContext.data) {
+        return (
+            <Tooltip content={i18n.t('Not available offline')}>
+                <ExpandableUnit
+                    disabled
+                    title={title}
+                    open={false}
+                    onToggle={() => null}
+                />
+            </Tooltip>
         )
     }
 

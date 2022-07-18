@@ -1,3 +1,4 @@
+import { useOnlineStatus } from '@dhis2/app-runtime'
 import { useQuery } from 'react-query'
 import {
     useOrgUnitId,
@@ -38,6 +39,7 @@ import processAudits from './process-audits.js'
  * })
  */
 export default function useDataValueContext(item, enabled) {
+    const { online } = useOnlineStatus()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
     const { attributeCombo, attributeOptions } = useApiAttributeParams()
@@ -53,7 +55,7 @@ export default function useDataValueContext(item, enabled) {
     })
 
     return useQuery(dataValueContextQueryKey, {
-        enabled: enabled && isValidSelection,
+        enabled: enabled && online && isValidSelection,
         select: (data) => {
             const { audits } = data
 

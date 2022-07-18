@@ -1,3 +1,4 @@
+import { useOnlineStatus } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     CircularLoader,
@@ -9,6 +10,7 @@ import {
     TableBody,
     TableHead,
     Tag,
+    Tooltip,
 } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -20,21 +22,13 @@ import useOpenState from './use-open-state.js'
 
 const title = i18n.t('Audit log')
 
-function sortAuditsByCreatedDate(audits) {
-    // Do not modify original array, sort mutates the array
-    return [...audits].sort((left, right) => {
-        const lCreated = new Date(left.created)
-        const rCreated = new Date(right.created)
-        return lCreated === rCreated ? 0 : lCreated < rCreated ? 1 : -1
-    })
-}
-
 export default function AuditLog() {
+    const { offline } = useOnlineStatus()
     const { item } = useCurrentItemContext()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
 
-    if (!open || dataValueContext.isLoading) {
+    if (!offline && (!open || dataValueContext.isLoading)) {
         return (
             <ExpandableUnit
                 title={title}
@@ -46,7 +40,7 @@ export default function AuditLog() {
         )
     }
 
-    if (dataValueContext.error) {
+    if (!offline && dataValueContext.error) {
         return (
             <ExpandableUnit
                 title={title}
@@ -59,6 +53,19 @@ export default function AuditLog() {
                     <p>{dataValueContext.error.toString()}</p>
                 </NoticeBox>
             </ExpandableUnit>
+        )
+    }
+
+    if (offline && !dataValueContext.data) {
+        return (
+            <Tooltip content={i18n.t('Not available offline')}>
+                <ExpandableUnit
+                    disabled
+                    title={title}
+                    open={false}
+                    onToggle={() => null}
+                />
+            </Tooltip>
         )
     }
 
