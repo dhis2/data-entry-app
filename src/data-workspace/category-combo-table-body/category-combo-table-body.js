@@ -11,47 +11,48 @@ import { CategoryComboTableBodyHeader } from './category-combo-table-body-header
 import { DataElementCell } from './data-element-cell.js'
 import { ColumnTotals, RowTotal } from './total-cells.js'
 
-export const CategoryComboTableBody = ({
-    categoryCombo,
-    dataElements,
-    filterText,
-    globalFilterText,
-    greyedFields,
-    maxColumnsInSection,
-    renderRowTotals,
-    renderColumnTotals,
-}) => {
-    const { data: metadata } = useMetadata()
+export const CategoryComboTableBody = React.memo(
+    function CategoryComboTableBody({
+        categoryCombo,
+        dataElements,
+        filterText,
+        globalFilterText,
+        greyedFields,
+        maxColumnsInSection,
+        renderRowTotals,
+        renderColumnTotals,
+    }) {
+        const { data: metadata } = useMetadata()
 
-    const categories = selectors.getCategoriesByCategoryComboId(
-        metadata,
-        categoryCombo.id
-    )
+        const categories = selectors.getCategoriesByCategoryComboId(
+            metadata,
+            categoryCombo.id
+        )
 
-    const sortedCOCs = useMemo(() => {
-        // each element is a combination of category-options for a particular column
-        // this results in lists of category-options in the same order as headers are rendered
-        // the result is a client side computation of categoryOption-combinations
-        const optionsIdLists = categories.map((cat) => cat.categoryOptions)
-        const computedCategoryOptions = cartesian(optionsIdLists)
-        // find categoryOptionCombos by category-options
-        return computedCategoryOptions
-            .map((options) =>
-                selectors.getCoCByCategoryOptions(
-                    metadata,
-                    categoryCombo.id,
-                    options
+        const sortedCOCs = useMemo(() => {
+            // each element is a combination of category-options for a particular column
+            // this results in lists of category-options in the same order as headers are rendered
+            // the result is a client side computation of categoryOption-combinations
+            const optionsIdLists = categories.map((cat) => cat.categoryOptions)
+            const computedCategoryOptions = cartesian(optionsIdLists)
+            // find categoryOptionCombos by category-options
+            return computedCategoryOptions
+                .map((options) =>
+                    selectors.getCoCByCategoryOptions(
+                        metadata,
+                        categoryCombo.id,
+                        options
+                    )
                 )
-            )
-            .filter((coc) => !!coc)
-    }, [metadata, categories, categoryCombo])
+                .filter((coc) => !!coc)
+        }, [metadata, categories, categoryCombo])
 
-    if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
-        console.warn(
-            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server.
-            Please regenerate categoryOptionCombos.
-            Computed: ${sortedCOCs.length}
-            Server: ${categoryCombo.categoryOptionCombos.length})`
+        if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
+            console.warn(
+                `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server.
+                Please regenerate categoryOptionCombos.
+                Computed: ${sortedCOCs.length}
+                Server: ${categoryCombo.categoryOptionCombos.length})`
         )
     }
 
@@ -127,6 +128,7 @@ export const CategoryComboTableBody = ({
         </TableBody>
     )
 }
+)
 
 CategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({

@@ -63,32 +63,6 @@ export function SectionFormSection({
     const filterInputId = `filter-input-${section.id}`
     const headerCellStyles = classNames(styles.headerCell, 'hide-for-print')
 
-    const cells = useMemo(
-        () =>
-        groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
-            <CategoryComboTableBody
-                key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
-                categoryCombo={categoryCombo}
-                dataElements={dataElements}
-                filterText={filterText}
-                globalFilterText={globalFilterText}
-                maxColumnsInSection={maxColumnsInSection}
-                renderRowTotals={section.showRowTotals}
-                renderColumnTotals={section.showColumnTotals}
-                greyedFields={greyedFields}
-            />
-        )),
-        [
-            section.showRowTotals,
-            section.showColumnTotals,
-            groupedDataElements,
-            filterText,
-            globalFilterText,
-            maxColumnsInSection,
-            greyedFields,
-        ]
-    )
-
     return (
         <Table className={styles.table} suppressZebraStriping>
             <TableHead>
@@ -131,7 +105,19 @@ export function SectionFormSection({
                     </TableCellHead>
                 </TableRowHead>
             </TableHead>
-            {cells}
+            {groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
+                <CategoryComboTableBody
+                    key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
+                    categoryCombo={categoryCombo}
+                    dataElements={dataElements}
+                    filterText={filterText}
+                    globalFilterText={globalFilterText}
+                    maxColumnsInSection={maxColumnsInSection}
+                    renderRowTotals={section.showRowTotals}
+                    renderColumnTotals={section.showColumnTotals}
+                    greyedFields={greyedFields}
+                />
+            ))}
             {indicators.length > 0 && (
                 <IndicatorsTableBody
                     indicators={indicators}
