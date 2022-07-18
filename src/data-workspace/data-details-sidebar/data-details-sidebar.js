@@ -13,7 +13,7 @@ import {
     Title,
     ExpandableUnit,
     useApiAttributeParams,
-    useCreateHighlightedFieldIds,
+    useHighlightedField,
     SidebarProps,
 } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
@@ -23,7 +23,7 @@ import Comment from './comment.js'
 import HistoryUnit from './history-unit.js'
 
 export default function DataDetailsSidebar() {
-    const item = useCreateHighlightedFieldIds()
+    const item = useHighlightedField()
     const onMarkForFollowup = () => null
     const onUnmarkForFollowup = () => null
     const [periodId] = usePeriodId()
