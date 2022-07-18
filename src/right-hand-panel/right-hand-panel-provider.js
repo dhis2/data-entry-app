@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useState } from 'react'
 import {
-    HideRightHandPanelContext,
     RightHandPanelContext,
-    ShowRightHandPanelContext,
+    SetRightHandPanelContext,
 } from './right-hand-panel-context.js'
 
 export default function RightHandPanelProvider({ children }) {
@@ -14,11 +13,9 @@ export default function RightHandPanelProvider({ children }) {
 
     return (
         <RightHandPanelContext.Provider value={value}>
-            <ShowRightHandPanelContext.Provider value={show}>
-                <HideRightHandPanelContext.Provider value={hide}>
-                    {children}
-                </HideRightHandPanelContext.Provider>
-            </ShowRightHandPanelContext.Provider>
+            <SetRightHandPanelContext.Provider value={show}>
+                {children}
+            </SetRightHandPanelContext.Provider>
         </RightHandPanelContext.Provider>
     )
 }
