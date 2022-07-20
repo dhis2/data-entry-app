@@ -1,11 +1,13 @@
-import { useOnlineStatus } from '@dhis2/app-runtime'
 import { useQuery } from 'react-query'
 import {
     useOrgUnitId,
     usePeriodId,
     useIsValidSelection,
 } from '../../context-selection/index.js'
-import { useApiAttributeParams } from '../../shared/index.js'
+import {
+    useApiAttributeParams,
+    useConnectionStatus,
+} from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
 import processAudits from './process-audits.js'
 
@@ -39,7 +41,7 @@ import processAudits from './process-audits.js'
  * })
  */
 export default function useDataValueContext(item, enabled) {
-    const { online } = useOnlineStatus()
+    const { online } = useConnectionStatus()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
     const { attributeCombo, attributeOptions } = useApiAttributeParams()

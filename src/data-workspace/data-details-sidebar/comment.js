@@ -1,10 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import {
-    CircularLoader,
-    Button,
-    ButtonStrip,
-    TextAreaFieldFF,
-} from '@dhis2/ui'
+import { CircularLoader, Button, ButtonStrip, TextAreaFieldFF } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, Field } from 'react-final-form'
@@ -14,9 +9,15 @@ import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
+const title = i18n.t('Comment')
+const errorMessage = i18n.t(
+    'There was a problem loading the comment for this data item'
+)
+
 function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
-    const [{ dataSetId: ds, periodId: pe, orgUnitId: ou }] = useContextSelection()
-    const onSubmit = values => {
+    const [{ dataSetId: ds, periodId: pe, orgUnitId: ou }] =
+        useContextSelection()
+    const onSubmit = (values) => {
         const variables = {
             ds,
             ou,
@@ -30,11 +31,7 @@ function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
     }
 
     return (
-        <ExpandableUnit
-            title={i18n.t('Comment')}
-            open={open}
-            onToggle={setOpen}
-        >
+        <ExpandableUnit title={title} open={open} onToggle={setOpen}>
             <Form onSubmit={onSubmit}>
                 {({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
@@ -90,21 +87,23 @@ CommentEditForm.propTypes = {
 export default function CommentUnit({ item }) {
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
-    const setDataValueComment = useSetDataValueCommentMutation(
-        () => setEditing(false)
+    const setDataValueComment = useSetDataValueCommentMutation(() =>
+        setEditing(false)
     )
 
     if (setDataValueComment.isLoading) {
-        return <CircularLoader small />
+        return (
+            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+                <CircularLoader small />
+            </ExpandableUnit>
+        )
     }
 
     if (setDataValueComment.isError) {
         return (
-            <LoadingError
-                title={i18n.t(
-                    'There was a problem loading the comment for this data item'
-                )}
-            />
+            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+                <LoadingError title={errorMessage} />
+            </ExpandableUnit>
         )
     }
 
@@ -121,11 +120,7 @@ export default function CommentUnit({ item }) {
     }
 
     return (
-        <ExpandableUnit
-            title={i18n.t('Comment')}
-            open={open}
-            onToggle={setOpen}
-        >
+        <ExpandableUnit title={title} open={open} onToggle={setOpen}>
             {item.comment && (
                 <pre
                     // Using <pre /> so text area line
@@ -137,7 +132,11 @@ export default function CommentUnit({ item }) {
             )}
 
             {!item.comment && (
-                <p className={item.comment ? styles.comment : styles.placeholder}>
+                <p
+                    className={
+                        item.comment ? styles.comment : styles.placeholder
+                    }
+                >
                     {i18n.t('No comment for this data item.')}
                 </p>
             )}

@@ -1,12 +1,37 @@
 import i18n from '@dhis2/d2-i18n'
-import {
-    Button,
-    ButtonStrip,
-} from '@dhis2/ui'
+import { Button, ButtonStrip, Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { useConnectionStatus } from '../../shared/index.js'
 import LimitsDeleteButton from './limits-delete-button.js'
 import styles from './limits.module.css'
+
+const editButtonLabel = i18n.t('Edit')
+
+function EditButton({ onClick }) {
+    const { offline } = useConnectionStatus()
+    console.log('> offline', offline)
+
+    if (offline) {
+        return (
+            <Tooltip content={i18n.t('Not available offline')}>
+                <Button small primary disabled>
+                    {editButtonLabel}
+                </Button>
+            </Tooltip>
+        )
+    }
+
+    return (
+        <Button small primary onClick={onClick}>
+            {editButtonLabel}
+        </Button>
+    )
+}
+
+EditButton.propTypes = {
+    onClick: PropTypes.func.isRequired,
+}
 
 export default function LimitsDisplay({
     categoryOptionComboId,
@@ -42,18 +67,10 @@ export default function LimitsDisplay({
             </div>
 
             <ButtonStrip>
-                <Button
-                    small
-                    primary
-                    onClick={onEditClick}
-                >
-                    {i18n.t('Edit')}
-                </Button>
-
+                <EditButton onClick={onEditClick} />
                 <LimitsDeleteButton
                     dataElementId={dataElementId}
                     categoryOptionComboId={categoryOptionComboId}
-                    disabled={false}
                 />
             </ButtonStrip>
         </div>

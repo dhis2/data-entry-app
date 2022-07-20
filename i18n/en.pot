@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-18T13:53:55.997Z\n"
-"PO-Revision-Date: 2022-07-18T13:53:55.997Z\n"
+"POT-Creation-Date: 2022-07-20T08:02:26.111Z\n"
+"PO-Revision-Date: 2022-07-20T08:02:26.111Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -187,6 +187,9 @@ msgstr "Audit log"
 msgid "Something went wrong loading the audit log"
 msgstr "Something went wrong loading the audit log"
 
+msgid "Not available offline"
+msgstr "Not available offline"
+
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
 
@@ -250,14 +253,14 @@ msgstr "Average value: {{avg}}"
 msgid "Delete limits"
 msgstr "Delete limits"
 
+msgid "Edit"
+msgstr "Edit"
+
 msgid "Minimum"
 msgstr "Minimum"
 
 msgid "Maximum"
 msgstr "Maximum"
-
-msgid "Edit"
-msgstr "Edit"
 
 msgid "A miminum is required when providing a maximum"
 msgstr "A miminum is required when providing a maximum"
@@ -271,11 +274,11 @@ msgstr "Minimum and maximum limits"
 msgid "Try again, or contact your system administrator."
 msgstr "Try again, or contact your system administrator."
 
-msgid "No limit set for this data item"
-msgstr "No limit set for this data item"
-
 msgid "Add limits"
 msgstr "Add limits"
+
+msgid "No limit set for this data item"
+msgstr "No limit set for this data item"
 
 msgid "Save limits"
 msgstr "Save limits"

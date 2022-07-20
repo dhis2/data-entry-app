@@ -18,7 +18,7 @@ export default function LimitsFormWrapper({
     const [orgUnitId] = useOrgUnitId()
     const { mutate: updateLimits } = useUpdateLimits(onDone)
 
-    const onSubmit = async ({ min, max }) => {
+    const onSubmit = async ({ min, max }) =>
         await updateLimits({
             categoryOptionCombo: categoryOptionComboId,
             dataElement: dataElementId,
@@ -26,7 +26,6 @@ export default function LimitsFormWrapper({
             minValue: min,
             maxValue: max,
         })
-    }
 
     const validator = validatorsByValueType[valueType]
     const validateMin = composeValidators(
@@ -42,16 +41,13 @@ export default function LimitsFormWrapper({
     // No need to check whether this is really more
     // than "min" as "min" is already checking
     // whether it's less than "max"
-    const validateMax = composeValidators(
-        (value, values) => {
-            if (!value && !!values.min) {
-                return i18n.t('A maximum is required when providing a minimum')
-            }
-        },
-        validator,
-    )
+    const validateMax = composeValidators((value, values) => {
+        if (!value && !!values.min) {
+            return i18n.t('A maximum is required when providing a minimum')
+        }
+    }, validator)
 
-    const validate = values => {
+    const validate = (values) => {
         let errors = undefined
 
         const minError = validateMin(values.min, values)

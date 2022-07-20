@@ -1,8 +1,11 @@
-import { useOnlineStatus } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, NoticeBox, Tooltip } from '@dhis2/ui'
 import React from 'react'
-import { ExpandableUnit, useCurrentItemContext } from '../../shared/index.js'
+import {
+    ExpandableUnit,
+    useConnectionStatus,
+    useCurrentItemContext,
+} from '../../shared/index.js'
 import HistoryLineChart from './history-line-chart.js'
 import useDataValueContext from './use-data-value-context.js'
 import useOpenState from './use-open-state.js'
@@ -10,7 +13,7 @@ import useOpenState from './use-open-state.js'
 const title = i18n.t('History')
 
 export default function History() {
-    const { offline } = useOnlineStatus()
+    const { offline } = useConnectionStatus()
     const { item } = useCurrentItemContext()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
