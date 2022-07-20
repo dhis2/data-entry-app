@@ -21,8 +21,10 @@ export default async function optimisticallySetDataValue({
         if (isNewDataValue) {
             const formattedNewDataValue = {
                 ...newDataValue,
-                attributeCombo,
-                attributeOptions,
+                attribute: {
+                    combo: attributeCombo,
+                    options: attributeOptions,
+                },
                 categoryOptionCombo: newDataValue.co,
                 dataElement: newDataValue.de,
                 orgUnit: newDataValue.ou,
