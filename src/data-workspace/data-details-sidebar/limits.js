@@ -12,12 +12,8 @@ export default function Limits({ dataValue, limits }) {
     const [open, setOpen] = useState(false)
     const [editing, setEditing] = useState(false)
 
-    const {
-        valueType,
-        dataElement,
-        categoryOptionCombo,
-        canHaveLimits,
-    } = dataValue
+    const { valueType, dataElement, categoryOptionCombo, canHaveLimits } =
+        dataValue
     const disabled = !canHaveLimits
 
     if (!editing && !limits.min && !limits.max) {

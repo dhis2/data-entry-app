@@ -36,10 +36,12 @@ function createCurrentItem({ de, coc, dataValueSet }) {
     const canHaveLimits = canItemHaveLimits(de)
 
     if (dataValue) {
-        const limits = !canHaveLimits ? {} : {
-            min: dataValue.min,
-            max: dataValue.min,
-        }
+        const limits = !canHaveLimits
+            ? {}
+            : {
+                  min: dataValue.min,
+                  max: dataValue.min,
+              }
 
         return {
             ...dataValue,

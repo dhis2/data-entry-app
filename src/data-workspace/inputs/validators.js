@@ -94,11 +94,10 @@ export const createLessThan = (key, description) => {
         { otherField: description || key }
     )
 
-    return (value, allValues) => (
-        isEmpty(value) ||
-        isEmpty(allValues[key]) ||
-        value < allValues[key] ? undefined : errorMessage
-    )
+    return (value, allValues) =>
+        isEmpty(value) || isEmpty(allValues[key]) || value < allValues[key]
+            ? undefined
+            : errorMessage
 }
 
 // @TODO: Move to @dhis2/ui-forms validators
@@ -108,9 +107,8 @@ export const createMoreThan = (key, description) => {
         { otherField: description || key }
     )
 
-    return (value, allValues) => (
-        isEmpty(value) ||
-        isEmpty(allValues[key]) ||
-        value > allValues[key] ? undefined : errorMessage
-    )
+    return (value, allValues) =>
+        isEmpty(value) || isEmpty(allValues[key]) || value > allValues[key]
+            ? undefined
+            : errorMessage
 }

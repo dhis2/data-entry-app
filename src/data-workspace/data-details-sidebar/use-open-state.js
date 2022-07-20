@@ -19,10 +19,13 @@ export default function useOpenState(item) {
     const prevItemRef = useRef(null)
     const openRef = useRef(false)
     const [open, _setOpen] = useState(false)
-    const setOpen = useCallback((nextValue) => {
-        openRef.current = nextValue
-        _setOpen(nextValue)
-    }, [_setOpen])
+    const setOpen = useCallback(
+        (nextValue) => {
+            openRef.current = nextValue
+            _setOpen(nextValue)
+        },
+        [_setOpen]
+    )
 
     if (isDifferentItem(item, prevItemRef.current)) {
         if (

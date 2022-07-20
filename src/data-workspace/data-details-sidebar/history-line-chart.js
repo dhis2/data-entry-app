@@ -11,9 +11,7 @@ import {
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Line } from 'react-chartjs-2'
-import {
-    parsePeriodId,
-} from '../../shared/index.js'
+import { parsePeriodId } from '../../shared/index.js'
 
 ChartJS.register(
     CategoryScale,
@@ -51,9 +49,7 @@ function sortHistoryByStartDate(history) {
 }
 
 function createLabelsFromHistory(history) {
-    return history.map(
-        ({ period }) => parsePeriodId(period).displayName
-    )
+    return history.map(({ period }) => parsePeriodId(period).displayName)
 }
 
 export default function HistoryLineChart({ history }) {

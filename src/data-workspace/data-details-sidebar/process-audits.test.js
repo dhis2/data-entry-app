@@ -26,7 +26,7 @@ test(`processAudits =>
             value: '2',
             modifiedBy: 'admin',
             created: '2022-07-07T11:02:00.440',
-            auditType: 'UPDATE'
+            auditType: 'UPDATE',
         },
         {
             dataElement: 'pikOziyCXbM',
@@ -36,7 +36,7 @@ test(`processAudits =>
             value: '',
             modifiedBy: 'admin',
             created: '2022-07-07T11:01:21.915',
-            auditType: 'UPDATE'
+            auditType: 'UPDATE',
         },
         {
             dataElement: 'pikOziyCXbM',
@@ -46,8 +46,8 @@ test(`processAudits =>
             value: '1',
             modifiedBy: 'admin',
             created: '2022-07-07T10:59:24.260',
-            auditType: 'DELETE'
-        }
+            auditType: 'DELETE',
+        },
     ]
 
     const processedAudits = processAudits(audits, currentItem)

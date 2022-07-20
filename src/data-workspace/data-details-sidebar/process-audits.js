@@ -9,9 +9,8 @@
 export default function processAudits(audits, currentItem) {
     const processedExistingAudits = [...audits].map((audit, index) => {
         const previousValue = audit.value
-        const newValue = index === 0
-            ? currentItem.value
-            : audits[index - 1].value
+        const newValue =
+            index === 0 ? currentItem.value : audits[index - 1].value
 
         return {
             ...audit,

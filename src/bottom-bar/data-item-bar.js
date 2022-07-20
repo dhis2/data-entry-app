@@ -40,11 +40,9 @@ export default function DataItemBar() {
                         : rightHandPanel.show('data-details')
                 }}
             >
-                {
-                    rightHandPanel.id
-                        ? i18n.t('Hide details')
-                        : i18n.t('View details')
-                }
+                {rightHandPanel.id
+                    ? i18n.t('Hide details')
+                    : i18n.t('View details')}
             </Button>
         </div>
     )

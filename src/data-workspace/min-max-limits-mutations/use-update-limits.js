@@ -13,11 +13,7 @@ function addLimit(previousDataValueSet, newLimit) {
 }
 
 // Updates dataValue without mutating previousDataValueSet
-function updateLimit(
-    previousDataValueSet,
-    updatedLimit,
-    targetIndex
-) {
+function updateLimit(previousDataValueSet, updatedLimit, targetIndex) {
     const newLimits = [...previousDataValueSet.minMaxValues]
     newLimits[targetIndex] = updatedLimit
 
@@ -85,22 +81,23 @@ export default function useUpdateLimits(onDone) {
             await queryClient.cancelQueries(dataValueSetQueryKey)
 
             // Snapshot the previous value
-            const previousDataValueSet = queryClient.getQueryData(dataValueSetQueryKey)
+            const previousDataValueSet =
+                queryClient.getQueryData(dataValueSetQueryKey)
 
             // Optimistically update to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
                 // dataValueSet.minMaxValues can be undefined
-                const previousMinMaxValues = previousDataValueSet?.minMaxValues || []
-                const matchIndex = getMinMaxValueIndex(previousMinMaxValues, variables)
+                const previousMinMaxValues =
+                    previousDataValueSet?.minMaxValues || []
+                const matchIndex = getMinMaxValueIndex(
+                    previousMinMaxValues,
+                    variables
+                )
                 const isNewLimit = matchIndex === -1
 
                 return isNewLimit
                     ? addLimit(previousDataValueSet, variables)
-                    : updateLimit(
-                        previousDataValueSet,
-                        variables,
-                        matchIndex
-                    )
+                    : updateLimit(previousDataValueSet, variables, matchIndex)
             })
 
             const context = { previousDataValueSet, dataValueSetQueryKey }
@@ -113,8 +110,8 @@ export default function useUpdateLimits(onDone) {
 
             queryClient.setQueryData(
                 context.dataValueSetQueryKey,
-                context.previousDataValueSet,
+                context.previousDataValueSet
             )
-        }
+        },
     })
 }

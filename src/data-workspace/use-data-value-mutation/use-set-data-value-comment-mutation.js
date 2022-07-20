@@ -8,9 +8,11 @@ export const SET_DATA_VALUE_COMMENT_MUTATION = {
     type: 'create',
     data: ({ co, de, ds, ou, pe, comment }) => {
         return {
-            // Easier to read this way..
-            // eslint-disable-next-line
-            co, de, ds, ou, pe,
+            co,
+            de,
+            ds,
+            ou,
+            pe,
 
             // when sending `undefined` something causes that
             // to get stored as a string `"undefined"`

@@ -4,11 +4,7 @@ import { useContextSelection } from '../../context-selection/index.js'
 import { dataValueSets } from '../query-key-factory.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
-function deleteLimit(
-    previousDataValueSet,
-    deletedLimit,
-    targetIndex
-) {
+function deleteLimit(previousDataValueSet, deletedLimit, targetIndex) {
     const newLimits = [
         ...previousDataValueSet.minMaxValues.slice(0, targetIndex),
         ...previousDataValueSet.minMaxValues.slice(targetIndex + 1),
@@ -76,19 +72,20 @@ export default function useDeleteLimits(onDone) {
             await queryClient.cancelQueries(dataValueSetQueryKey)
 
             // Snapshot the previous value
-            const previousDataValueSet = queryClient.getQueryData(dataValueSetQueryKey)
+            const previousDataValueSet =
+                queryClient.getQueryData(dataValueSetQueryKey)
 
             // Optimistically delete to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
                 // dataValueSet.minMaxValues can be undefined
-                const previousMinMaxValues = previousDataValueSet.minMaxValues || []
-                const matchIndex = getMinMaxValueIndex(previousMinMaxValues, variables)
-
-                return deleteLimit(
-                    previousDataValueSet,
-                    variables,
-                    matchIndex
+                const previousMinMaxValues =
+                    previousDataValueSet.minMaxValues || []
+                const matchIndex = getMinMaxValueIndex(
+                    previousMinMaxValues,
+                    variables
                 )
+
+                return deleteLimit(previousDataValueSet, variables, matchIndex)
             })
 
             const context = { previousDataValueSet, dataValueSetQueryKey }
@@ -101,8 +98,8 @@ export default function useDeleteLimits(onDone) {
 
             queryClient.setQueryData(
                 context.dataValueSetQueryKey,
-                context.previousDataValueSet,
+                context.previousDataValueSet
             )
-        }
+        },
     })
 }

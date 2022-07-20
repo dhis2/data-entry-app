@@ -8,13 +8,7 @@ import styles from './limits-input.module.css'
 // because that one always shows the error.
 // In this case we want to show the errors below the entire form,
 // otherwise the text has very limited space
-export default function LimitsInput({
-    label,
-    name,
-    onChange,
-    value,
-    error,
-}) {
+export default function LimitsInput({ label, name, onChange, value, error }) {
     return (
         <Field label={label} name={name} className={styles.container}>
             <Box>

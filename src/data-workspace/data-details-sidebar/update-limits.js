@@ -21,21 +21,23 @@ function UpdateLimits({
 
     const minField = useField('min', {
         initialValue: limits.min,
-        parse: value => value === '' ? '' : parseInt(value, 10),
-        format: value => value ? value.toString() : '',
+        parse: (value) => (value === '' ? '' : parseInt(value, 10)),
+        format: (value) => (value ? value.toString() : ''),
     })
 
     const maxField = useField('max', {
         initialValue: limits.max,
-        parse: value => value === '' ? '' : parseInt(value, 10),
-        format: value => value ? value.toString() : '',
+        parse: (value) => (value === '' ? '' : parseInt(value, 10)),
+        format: (value) => (value ? value.toString() : ''),
     })
 
     return (
-        <form onSubmit={(e) => {
-            e.preventDefault()
-            form.submit()
-        }}>
+        <form
+            onSubmit={(e) => {
+                e.preventDefault()
+                form.submit()
+            }}
+        >
             <LimitsAverageValueInfo avg={limits.avg} />
 
             <div className={styles.limits}>
@@ -65,12 +67,7 @@ function UpdateLimits({
             )}
 
             <ButtonStrip>
-                <Button
-                    small
-                    primary
-                    type="submit"
-                    loading={submitting}
-                >
+                <Button small primary type="submit" loading={submitting}>
                     {submitting ? i18n.t('Saving...') : i18n.t('Save limits')}
                 </Button>
 
@@ -93,7 +90,7 @@ function UpdateLimits({
                 />
             </ButtonStrip>
         </form>
-                )
+    )
 }
 
 UpdateLimits.propTypes = {

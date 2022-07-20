@@ -26,7 +26,8 @@ export default function useDataValueMutation({
             await queryClient.cancelQueries(dataValueSetQueryKey)
 
             // Snapshot the previous value
-            const previousDataValueSet = queryClient.getQueryData(dataValueSetQueryKey)
+            const previousDataValueSet =
+                queryClient.getQueryData(dataValueSetQueryKey)
 
             await onMutate({
                 queryClient,
