@@ -85,7 +85,10 @@ describe('<AuditLog />', () => {
         ]
 
         const data = { audits }
-        useDataValueContext.mockImplementation(() => ({ isLoading: false, data }))
+        useDataValueContext.mockImplementation(() => ({
+            isLoading: false,
+            data,
+        }))
 
         const { getByRole, getAllByRole, queryByRole, getByText, container } =
             render(<AuditLog />)

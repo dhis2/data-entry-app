@@ -84,7 +84,7 @@ CommentEditForm.propTypes = {
     onCancel: PropTypes.func.isRequired,
 }
 
-export default function CommentUnit({ item }) {
+export default function Comment({ item }) {
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
     const setDataValueComment = useSetDataValueCommentMutation(() =>
@@ -148,7 +148,7 @@ export default function CommentUnit({ item }) {
     )
 }
 
-CommentUnit.propTypes = {
+Comment.propTypes = {
     item: PropTypes.shape({
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
