@@ -1,115 +1,161 @@
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, Tooltip } from '@dhis2/ui'
+import {
+    CircularLoader,
+    DataTable,
+    DataTableCell,
+    DataTableColumnHeader,
+    DataTableRow,
+    NoticeBox,
+    TableBody,
+    TableHead,
+    Tag,
+    Tooltip,
+} from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ExpandableUnit } from '../../shared/index.js'
+import {
+    ExpandableUnit,
+    useCurrentItemContext,
+    useConnectionStatus,
+} from '../../shared/index.js'
 import styles from './audit-log.module.css'
+import useDataValueContext from './use-data-value-context.js'
+import useOpenState from './use-open-state.js'
 
-const renderMessage = ({ modifiedBy, auditType, value, prevValue }) => {
-    if (auditType === 'UPDATE' && typeof prevValue === 'undefined') {
-        return i18n.t('{{user}} set to {{value}}', { user: modifiedBy, value })
+const title = i18n.t('Audit log')
+
+export default function AuditLog() {
+    const { offline } = useConnectionStatus()
+    const { item } = useCurrentItemContext()
+    const { open, setOpen, openRef } = useOpenState(item)
+    const dataValueContext = useDataValueContext(item, openRef.current)
+
+    if (!offline && (!open || dataValueContext.isLoading)) {
+        return (
+            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+                <CircularLoader small />
+            </ExpandableUnit>
+        )
     }
 
-    if (auditType === 'UPDATE') {
-        return i18n.t('{{user}} updated to {{value}} (was {{prevValue}})', {
-            user: modifiedBy,
-            value,
-            prevValue,
-        })
+    if (!offline && dataValueContext.error) {
+        return (
+            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+                <NoticeBox
+                    title={i18n.t('Something went wrong loading the audit log')}
+                >
+                    <p>{dataValueContext.error.toString()}</p>
+                </NoticeBox>
+            </ExpandableUnit>
+        )
     }
 
-    if (auditType === 'DELETE') {
-        return i18n.t('{{user}} deleted (was {{prevValue}})', {
-            user: modifiedBy,
-            value,
-            prevValue,
-        })
-    }
-
-    return auditType
-}
-
-const Entry = ({ entry }) => {
-    const timeAgo = moment(entry.created).fromNow()
-
-    return (
-        <>
-            <span className={styles.entryMessage}>{renderMessage(entry)}</span>
-            <Tooltip content={entry.created}>
-                <span className={styles.entryTimeAgo}>{timeAgo}</span>
+    if (offline && !dataValueContext.data) {
+        return (
+            <Tooltip content={i18n.t('Not available offline')}>
+                <ExpandableUnit
+                    disabled
+                    title={title}
+                    open={false}
+                    onToggle={() => null}
+                />
             </Tooltip>
-        </>
-    )
-}
+        )
+    }
 
-Entry.propTypes = {
-    entry: PropTypes.shape({
-        auditType: PropTypes.oneOf(['UPDATE', 'DELETE']).isRequired,
-        created: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-        prevValue: PropTypes.string,
-    }).isRequired,
-}
-
-const AuditLogUnit = ({ loading, audits }) => {
+    const audits = dataValueContext.data?.audits || []
     const isEmptyAuditLog = !Array.isArray(audits) || audits.length === 0
-    // Do not modify original array, sort mutates the array
-    const newToOldAuditLog = [...audits].sort((left, right) => {
-        const lCreated = new Date(left.created)
-        const rCreated = new Date(right.created)
-        return lCreated === rCreated ? 0 : lCreated < rCreated ? 1 : -1
-    })
 
-    return (
-        <ExpandableUnit title={i18n.t('Audit log')}>
-            {loading && <CircularLoader small />}
-
-            {!loading && isEmptyAuditLog && (
+    if (isEmptyAuditLog) {
+        return (
+            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
                 <p className={styles.placeholder}>
                     {i18n.t('No audit log for this data item.')}
                 </p>
-            )}
+            </ExpandableUnit>
+        )
+    }
 
-            {!loading && !isEmptyAuditLog && (
-                <ul className={styles.entries}>
-                    {!newToOldAuditLog.length && (
-                        <span>{i18n.t('No audit log for this data item')}</span>
-                    )}
+    return (
+        <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+            <DataTable>
+                <TableHead>
+                    <DataTableRow>
+                        <DataTableColumnHeader>Date</DataTableColumnHeader>
+                        <DataTableColumnHeader>User</DataTableColumnHeader>
+                        <DataTableColumnHeader>Change</DataTableColumnHeader>
+                    </DataTableRow>
+                </TableHead>
 
-                    {newToOldAuditLog.map((entry, index, all) => {
-                        const payload = {
-                            ...entry,
-                            prevValue: all[index + 1]?.value,
-                        }
+                <TableBody>
+                    {audits.map((audit, index) => {
+                        const {
+                            modifiedBy: user,
+                            previousValue,
+                            value,
+                            created,
+                            auditType,
+                        } = audit
 
                         return (
-                            <li key={index} className={styles.entry}>
-                                <Entry entry={payload} />
-                            </li>
+                            <DataTableRow key={index}>
+                                <DataTableCell>
+                                    {moment(created).format('YYYY-MM-DD HH:mm')}
+                                </DataTableCell>
+                                <DataTableCell>{user}</DataTableCell>
+                                <DataTableCell>
+                                    <div>
+                                        {auditType === 'DELETE' && (
+                                            <DeletedValue
+                                                previousValue={previousValue}
+                                            />
+                                        )}
+                                        {auditType === 'UPDATE' && (
+                                            <UpdatedValue
+                                                value={value}
+                                                previousValue={previousValue}
+                                            />
+                                        )}
+                                    </div>
+                                </DataTableCell>
+                            </DataTableRow>
                         )
                     })}
-                </ul>
-            )}
+                </TableBody>
+            </DataTable>
         </ExpandableUnit>
     )
 }
 
-AuditLogUnit.defaultProps = {
-    audits: [],
+function DeletedValue({ previousValue }) {
+    return (
+        <>
+            <Tag negative>
+                <span style={{ textDecoration: 'line-through' }}>
+                    {previousValue}
+                </span>
+            </Tag>
+        </>
+    )
 }
 
-AuditLogUnit.propTypes = {
-    audits: PropTypes.arrayOf(
-        PropTypes.shape({
-            auditType: PropTypes.string,
-            created: PropTypes.string,
-            modifiedBy: PropTypes.string,
-            prevValue: PropTypes.string,
-            value: PropTypes.string,
-        })
-    ),
-    loading: PropTypes.bool,
+DeletedValue.propTypes = {
+    previousValue: PropTypes.string.isRequired,
 }
 
-export default AuditLogUnit
+function UpdatedValue({ value, previousValue }) {
+    return (
+        <>
+            <Tag>{previousValue}</Tag>
+            {/* space arrow-right space*/}
+            &nbsp;&rarr;&nbsp;
+            <Tag>{value}</Tag>
+        </>
+    )
+}
+
+UpdatedValue.propTypes = {
+    previousValue: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+}

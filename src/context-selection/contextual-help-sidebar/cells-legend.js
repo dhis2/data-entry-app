@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { Divider } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { ExpandableUnit } from '../../shared/index.js'
 import Cell from './cell.js'
 import styles from './cells-legend.module.css'
@@ -23,8 +23,14 @@ CellsLegendSymbol.propTypes = {
 }
 
 export default function CellsLegend() {
+    const [open, setOpen] = useState(true)
+
     return (
-        <ExpandableUnit title={i18n.t('Cell reference')} initiallyOpen>
+        <ExpandableUnit
+            title={i18n.t('Cell reference')}
+            open={open}
+            onToggle={setOpen}
+        >
             <CellsLegendSymbol
                 name={i18n.t('Saved and synced to server')}
                 state="SYNCED"

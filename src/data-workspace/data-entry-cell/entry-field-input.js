@@ -15,14 +15,42 @@ import { useDataValueSet } from '../use-data-value-set.js'
 import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
 
+function canItemHaveLimits(de) {
+    if (de.optionSetValue) {
+        return false
+    }
+
+    return [
+        VALUE_TYPES.INTEGER,
+        VALUE_TYPES.INTEGER_NEGATIVE,
+        VALUE_TYPES.INTEGER_POSITIVE,
+        VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE,
+        VALUE_TYPES.UNIT_INTERVAL,
+        VALUE_TYPES.NUMBER,
+        VALUE_TYPES.PERCENTAGE,
+    ].includes(de.valueType)
+}
+
 function createCurrentItem({ de, coc, dataValueSet }) {
     const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
+    const canHaveLimits = canItemHaveLimits(de)
+
     if (dataValue) {
+        const limits = !canHaveLimits
+            ? {}
+            : {
+                  min: dataValue.min,
+                  max: dataValue.min,
+              }
+
         return {
             ...dataValue,
             categoryOptionCombo: coc.id,
             name: de.displayName,
             code: de.code,
+            canHaveLimits,
+            valueType: de.valueType,
+            limits,
         }
     }
 
@@ -35,6 +63,9 @@ function createCurrentItem({ de, coc, dataValueSet }) {
         comment: null,
         storedBy: null,
         code: null,
+        canHaveLimits,
+        valueType: de.valueType,
+        limits: { min: undefined, max: undefined },
     }
 }
 
@@ -99,9 +130,10 @@ export function EntryFieldInput({
     })
 
     const onKeyDown = (event) => {
-        const { key, shiftKey } = event
+        const { key, ctrlKey, metaKey } = event
+        const ctrlOrMetaKey = ctrlKey ^ metaKey
 
-        if (shiftKey && key === 'Enter') {
+        if (ctrlOrMetaKey && key === 'Enter') {
             rightHandPanel.show('data-details')
         } else if (key === 'ArrowDown' || key === 'Enter') {
             event.preventDefault()
@@ -114,7 +146,6 @@ export function EntryFieldInput({
 
     const onFocus = () => {
         setCurrentItem(currentItem)
-        rightHandPanel.hide()
     }
 
     const sharedProps = {

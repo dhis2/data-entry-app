@@ -1,25 +1,32 @@
-import { CustomDataProvider } from '@dhis2/app-runtime'
 import { waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
 import AuditLog from './audit-log.js'
+import useDataValueContext from './use-data-value-context.js'
+
+jest.mock('./use-data-value-context.js', () => ({
+    __esModule: true,
+    default: jest.fn(),
+}))
 
 describe('<AuditLog />', () => {
-    it('is collapsed by default', () => {
-        const { getByRole } = render(
-            <CustomDataProvider options={{ loadForever: true }}>
-                <AuditLog itemId="item-1" />
-            </CustomDataProvider>
-        )
+    afterEach(() => {
+        useDataValueContext.mockClear()
+    })
 
+    it('is collapsed by default', () => {
+        useDataValueContext.mockImplementation(() => ({}))
+        const { getByRole } = render(<AuditLog />)
         expect(getByRole('group')).not.toHaveAttribute('open')
     })
 
     it('renders a loading spinner whilst loading the item auditLog', async () => {
-        const { getByRole, container } = render(
-            <AuditLog loading itemId="item-1" />
-        )
+        useDataValueContext.mockImplementation(() => ({
+            isLoading: true,
+        }))
+
+        const { getByRole, container } = render(<AuditLog />)
 
         // Expand
         userEvent.click(container.querySelector('summary'))
@@ -31,6 +38,11 @@ describe('<AuditLog />', () => {
     })
 
     it('renders a placeholder if there are no audit log', async () => {
+        useDataValueContext.mockImplementation(() => ({
+            isLoading: false,
+            data: { audits: [] },
+        }))
+
         const { getByRole, queryByRole, getByText, container } = render(
             <AuditLog audits={[]} />
         )
@@ -47,13 +59,16 @@ describe('<AuditLog />', () => {
         ).toBeInTheDocument()
     })
 
-    it('renders the item audit log once loaded', async () => {
+    // @TODO: Enable and fix when working on:
+    // https://dhis2.atlassian.net/browse/TECH-1281
+    it.skip('renders the item audit log once loaded', async () => {
         const audits = [
             {
                 auditType: 'UPDATE',
                 created: new Date('2021-01-01').toISOString(),
                 modifiedBy: 'Firstname Lastname',
-                value: '19',
+                prevValue: '19',
+                value: '21',
             },
             {
                 auditType: 'UPDATE',
@@ -68,8 +83,15 @@ describe('<AuditLog />', () => {
                 value: '',
             },
         ]
+
+        const data = { audits }
+        useDataValueContext.mockImplementation(() => ({
+            isLoading: false,
+            data,
+        }))
+
         const { getByRole, getAllByRole, queryByRole, getByText, container } =
-            render(<AuditLog audits={audits} />)
+            render(<AuditLog />)
 
         // Expand and wait for data to load
         userEvent.click(container.querySelector('summary'))

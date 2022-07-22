@@ -7,7 +7,7 @@ import useMutationFn from './use-mutation-fn.js'
 export const DELETE_VALUE_MUTATION = {
     resource: 'dataValues',
     type: 'delete',
-    params: (params) => params,
+    params: ({ co, de, ds, ou, pe }) => ({ co, de, ds, ou, pe }),
 }
 
 export function useDeleteDataValueMutation() {

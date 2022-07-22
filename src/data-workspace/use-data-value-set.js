@@ -45,6 +45,12 @@ function mapDataValuesToFormInitialValues(dataValues) {
     return formInitialValues
 }
 
+function select(data) {
+    const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
+    const minMaxValues = data.minMaxValues || {}
+    return { dataValues, minMaxValues }
+}
+
 export const useDataValueSet = () => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
@@ -53,12 +59,8 @@ export const useDataValueSet = () => {
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
         enabled: activeMutations === 0 && isValidSelection,
-        select: (data) => {
-            const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
-            const minMaxValues = data.minMaxValues || {}
-            return { dataValues, minMaxValues }
-        },
-        // Only fetch whilst offline, to prevent optimistic updates from being overwritten
+        select,
+        // Only fetch whilst online, to prevent optimistic updates from being overwritten
         networkMode: 'online',
         meta: {
             persist: true,

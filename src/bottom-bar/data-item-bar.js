@@ -26,13 +26,23 @@ export default function DataItemBar() {
     return (
         <div className={styles.container}>
             <span className={styles.name}>
-                {dataElement.displayShortName}
+                {dataElement.displayName}
                 {categoryOptionComboDisplayName &&
-                    `| ${categoryOptionComboDisplayName}`}
+                    ` | ${categoryOptionComboDisplayName}`}
             </span>
 
-            <Button small onClick={() => rightHandPanel.show('data-details')}>
-                {i18n.t('View details')}
+            <Button
+                small
+                className={styles.dataDetailsButton}
+                onClick={() => {
+                    rightHandPanel.id
+                        ? rightHandPanel.hide()
+                        : rightHandPanel.show('data-details')
+                }}
+            >
+                {rightHandPanel.id
+                    ? i18n.t('Hide details')
+                    : i18n.t('View details')}
             </Button>
         </div>
     )

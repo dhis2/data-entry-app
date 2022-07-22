@@ -2,7 +2,7 @@ import addDataValue from './add-data-value.js'
 import getDataValueIndex from './get-data-value-index.js'
 import updateDataValue from './update-data-value.js'
 
-export default async function optimisticallyUploadDataValueFile({
+export default async function optimisticallySetDataValueComment({
     queryClient,
     newDataValue,
     dataValueSetQueryKey,
@@ -16,14 +16,6 @@ export default async function optimisticallyUploadDataValueFile({
         const matchIndex = getDataValueIndex(previousDataValues, newDataValue)
         const isNewDataValue = matchIndex === -1
 
-        // If this is a file-type data value, set value to some file metadata
-        // so it's available offline. When DVSets is refetched, the value will
-        // be replaced by a UID that will be handled in the FileResourceInput components
-        const newValue = {
-            name: newDataValue.file?.name,
-            size: newDataValue.file?.size,
-        }
-
         // If the field was previously empty the dataValue won't exist yet
         if (isNewDataValue) {
             const formattedNewDataValue = {
@@ -36,14 +28,14 @@ export default async function optimisticallyUploadDataValueFile({
                 dataElement: newDataValue.de,
                 orgUnit: newDataValue.ou,
                 period: newDataValue.pe,
-                value: newValue,
             }
 
             return addDataValue(previousDataValueSet, formattedNewDataValue)
         } else {
+            const { comment } = newDataValue
             const formattedNewDataValue = {
                 ...previousDataValues[matchIndex],
-                value: newValue,
+                comment,
             }
 
             return updateDataValue(

@@ -25,12 +25,14 @@ const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => (
                 })}
             </li>
             <li>
-                <Tooltip content={item.lastUpdated.toString()}>
-                    {i18n.t('Last updated {{- timeAgo}} by {{- name}}', {
-                        timeAgo: moment.utc(item.lastUpdated).fromNow(),
-                        name: item.storedBy,
-                    })}
-                </Tooltip>
+                {item.lastUpdated && (
+                    <Tooltip content={item.lastUpdated.toString()}>
+                        {i18n.t('Last updated {{- timeAgo}} by {{- name}}', {
+                            timeAgo: moment.utc(item.lastUpdated).fromNow(),
+                            name: item.storedBy,
+                        })}
+                    </Tooltip>
+                )}
             </li>
 
             {item.followup ? (
