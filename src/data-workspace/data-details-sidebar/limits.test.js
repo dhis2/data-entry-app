@@ -1,26 +1,35 @@
-import { CustomDataProvider } from '@dhis2/app-runtime'
-import { waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
 import Limits from './limits.js'
 
 describe('<Limits />', () => {
-    it('is collapsed by default', () => {
+    it('is expanded by default', () => {
         const { getByRole } = render(
-            <CustomDataProvider options={{ loadForever: true }}>
-                <Limits itemId="item-1" itemType="numerical" />
-            </CustomDataProvider>
+            <Limits
+                dataValue={{
+                    canHaveLimits: true,
+                    categoryOptionCombo: 'cat-combo-id',
+                    dataElement: 'de-id',
+                    valueType: 'INTEGER',
+                }}
+                limits={{ min: 3, max: 4 }}
+            />
         )
 
-        expect(getByRole('group')).not.toHaveAttribute('open')
+        expect(getByRole('group')).toHaveAttribute('open')
     })
 
     it(`is disabled if value of itemType prop is not 'numerical'`, () => {
         const { getByText } = render(
-            <CustomDataProvider options={{ loadForever: true }}>
-                <Limits itemId="item-1" itemType="text" />
-            </CustomDataProvider>
+            <Limits
+                dataValue={{
+                    canHaveLimits: false,
+                    categoryOptionCombo: 'cat-combo-id',
+                    dataElement: 'de-id',
+                    valueType: 'STRING',
+                }}
+                limits={{}}
+            />
         )
 
         expect(
@@ -28,60 +37,21 @@ describe('<Limits />', () => {
         ).toBeInTheDocument()
     })
 
-    it('renders a loading spinner whilst loading the item limits', async () => {
-        const { getByRole, container } = render(
-            <CustomDataProvider options={{ loadForever: true }}>
-                <Limits itemId="item-1" itemType="numerical" />
-            </CustomDataProvider>
-        )
-
-        // Expand
-        userEvent.click(container.querySelector('summary'))
-        await waitFor(() => {
-            expect(getByRole('group')).toHaveAttribute('open')
-        })
-
-        expect(getByRole('progressbar')).toBeInTheDocument()
-    })
-
-    it('renders an error message if the limits could not be loaded', async () => {
-        const { getByRole, queryByRole, container } = render(
-            <CustomDataProvider options={{ failOnMiss: true }}>
-                <Limits itemId="item-1" itemType="numerical" />
-            </CustomDataProvider>
-        )
-
-        // Expand and wait for data to load
-        userEvent.click(container.querySelector('summary'))
-        await waitFor(() => {
-            expect(getByRole('group')).toHaveAttribute('open')
-            expect(queryByRole('progressbar')).not.toBeInTheDocument()
-        })
-
-        expect(
-            getByRole('heading', {
-                name: 'There was a problem loading the limits for this data item',
-            })
-        ).toBeInTheDocument()
-    })
-
     it('renders a placeholder if there are no limits', async () => {
-        const mockData = {
-            limits: null,
-        }
-        const { getByRole, queryByRole, getByText, container } = render(
-            <CustomDataProvider data={mockData} options={{ failOnMiss: false }}>
-                <Limits itemId="item-1" itemType="numerical" />
-            </CustomDataProvider>
+        const { getByRole, queryByRole, getByText } = render(
+            <Limits
+                dataValue={{
+                    canHaveLimits: true,
+                    categoryOptionCombo: 'cat-combo-id',
+                    dataElement: 'de-id',
+                    valueType: 'INTEGER',
+                }}
+                limits={{ min: undefined, max: undefined }}
+            />
         )
 
         // Expand and wait for data to load
-        userEvent.click(container.querySelector('summary'))
-        await waitFor(() => {
-            expect(getByRole('group')).toHaveAttribute('open')
-            expect(queryByRole('progressbar')).not.toBeInTheDocument()
-        })
-
+        expect(queryByRole('progressbar')).not.toBeInTheDocument()
         expect(
             getByText('No limits set for this data item.')
         ).toBeInTheDocument()
@@ -94,32 +64,23 @@ describe('<Limits />', () => {
         ).not.toBeInTheDocument()
     })
 
-    it('renders the item limits once loaded', async () => {
-        const mockData = {
-            limits: {
-                avg: 3,
-                min: 1,
-                max: 2,
-            },
-        }
-        const { getByRole, queryByRole, getByText, container } = render(
-            <CustomDataProvider data={mockData}>
-                <Limits itemId="item-1" itemType="numerical" />
-            </CustomDataProvider>
+    it('renders the item limits', async () => {
+        const { getByRole, queryByRole, getByText } = render(
+            <Limits
+                dataValue={{
+                    canHaveLimits: true,
+                    categoryOptionCombo: 'cat-combo-id',
+                    dataElement: 'de-id',
+                    valueType: 'INTEGER',
+                }}
+                limits={{ min: 3, max: 4 }}
+            />
         )
 
-        // Expand and wait for data to load
-        userEvent.click(container.querySelector('summary'))
-        await waitFor(() => {
-            expect(getByRole('group')).toHaveAttribute('open')
-            expect(queryByRole('progressbar')).not.toBeInTheDocument()
-        })
-
-        expect(
-            getByText(`Average value: ${mockData.limits.avg}`)
-        ).toBeInTheDocument()
-        expect(getByText(mockData.limits.min)).toBeInTheDocument()
-        expect(getByText(mockData.limits.max)).toBeInTheDocument()
+        expect(queryByRole('progressbar')).not.toBeInTheDocument()
+        expect(getByText(`Average value: 3.5`)).toBeInTheDocument()
+        expect(getByText(3)).toBeInTheDocument()
+        expect(getByText(4)).toBeInTheDocument()
         expect(
             queryByRole('button', { name: 'Add limits' })
         ).not.toBeInTheDocument()

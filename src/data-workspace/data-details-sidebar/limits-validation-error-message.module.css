@@ -1,0 +1,18 @@
+.container {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--colors-grey600);
+}
+
+.error {
+    display: block;
+}
+
+.errorLabel {
+    font-weight: bold;
+    color: var(--theme-error);
+}
+
+.errorLabel:after {
+    content: ': ';
+}

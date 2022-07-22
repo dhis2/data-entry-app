@@ -5,14 +5,15 @@ import React from 'react'
 import styles from './limits.module.css'
 
 export default function LimitsAverageValueInfo({ avg }) {
-    if (!avg) {
-        return null
-    }
-
+    const average = avg || '-'
     return (
         <div className={styles.averageValue}>
             <IconInfo16 color={colors.grey600} />
-            {i18n.t('Average value: {{avg}}', { avg, nsSeparator: '-:-' })}
+
+            {i18n.t('Average value: {{avg}}', {
+                avg: average,
+                nsSeparator: '-:-',
+            })}
         </div>
     )
 }

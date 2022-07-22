@@ -9,7 +9,7 @@ import UpdateLimits from './update-limits.js'
 const title = i18n.t('Minimum and maximum limits')
 
 export default function Limits({ dataValue, limits }) {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
 
     const { valueType, dataElement, categoryOptionCombo, canHaveLimits } =

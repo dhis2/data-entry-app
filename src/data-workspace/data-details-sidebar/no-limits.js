@@ -36,7 +36,7 @@ export default function NoLimits({ onAddLimitsClick }) {
     return (
         <div className={sharedStyles.limit}>
             <p className={noLimitsStyles.label}>
-                {i18n.t('No limit set for this data item')}
+                {i18n.t('No limits set for this data item.')}
             </p>
             <AddButton onAddLimitsClick={onAddLimitsClick} />
         </div>

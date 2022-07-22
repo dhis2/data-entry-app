@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-20T08:02:26.111Z\n"
-"PO-Revision-Date: 2022-07-20T08:02:26.111Z\n"
+"POT-Creation-Date: 2022-07-22T08:21:07.001Z\n"
+"PO-Revision-Date: 2022-07-22T08:21:07.001Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -214,6 +214,9 @@ msgstr "Mark for follow-up"
 msgid "Comment"
 msgstr "Comment"
 
+msgid "There was a problem loading the comment for this data item"
+msgstr "There was a problem loading the comment for this data item"
+
 msgid "Saving..."
 msgstr "Saving..."
 
@@ -222,9 +225,6 @@ msgstr "Save comment"
 
 msgid "Cancel"
 msgstr "Cancel"
-
-msgid "There was a problem loading the comment for this data item"
-msgstr "There was a problem loading the comment for this data item"
 
 msgid "No comment for this data item."
 msgstr "No comment for this data item."
@@ -253,8 +253,8 @@ msgstr "Average value: {{avg}}"
 msgid "Delete limits"
 msgstr "Delete limits"
 
-msgid "Edit"
-msgstr "Edit"
+msgid "Edit limits"
+msgstr "Edit limits"
 
 msgid "Minimum"
 msgstr "Minimum"
@@ -277,8 +277,8 @@ msgstr "Try again, or contact your system administrator."
 msgid "Add limits"
 msgstr "Add limits"
 
-msgid "No limit set for this data item"
-msgstr "No limit set for this data item"
+msgid "No limits set for this data item."
+msgstr "No limits set for this data item."
 
 msgid "Save limits"
 msgstr "Save limits"

@@ -3,11 +3,13 @@ import { Button, ButtonStrip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField, useForm } from 'react-final-form'
+import calculateAverage from './calculate-average.js'
 import LimitsAverageValueInfo from './limits-average-value-info.js'
 import LimitsDeleteButton from './limits-delete-button.js'
 import LimitsFormWrapper from './limits-form-wrapper.js'
 import limitInputLabelsByName from './limits-input-labels-by-name.js'
 import LimitsInput from './limits-input.js'
+import LimitsValidationErrorMessage from './limits-validation-error-message.js'
 import styles from './limits.module.css'
 
 function UpdateLimits({
@@ -31,6 +33,8 @@ function UpdateLimits({
         format: (value) => (value ? value.toString() : ''),
     })
 
+    const average = calculateAverage(minField.input.value, maxField.input.value)
+
     return (
         <form
             onSubmit={(e) => {
@@ -38,9 +42,9 @@ function UpdateLimits({
                 form.submit()
             }}
         >
-            <LimitsAverageValueInfo avg={limits.avg} />
-
             <div className={styles.limits}>
+                <LimitsAverageValueInfo avg={average} />
+
                 <LimitsInput
                     {...minField.input}
                     label={limitInputLabelsByName.min}
@@ -56,15 +60,7 @@ function UpdateLimits({
                 />
             </div>
 
-            {(!!errors.min || !!errors.max) && (
-                <div>
-                    {Object.entries(errors).map(([name, errorMsg]) => (
-                        <span key={name} style={{ display: 'block' }}>
-                            <b>{limitInputLabelsByName[name]}</b>: {errorMsg}
-                        </span>
-                    ))}
-                </div>
-            )}
+            <LimitsValidationErrorMessage errors={errors} />
 
             <ButtonStrip>
                 <Button small primary type="submit" loading={submitting}>
