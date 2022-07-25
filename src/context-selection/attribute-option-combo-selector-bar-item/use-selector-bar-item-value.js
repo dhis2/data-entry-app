@@ -20,7 +20,10 @@ export default function useSelectorBarItemValue(categoryCombination) {
     if (categoryCombination?.categories.length === 1) {
         const categoryId = categoryCombination?.categories[0]
         const categoryOptionId = attributeOptionComboSelection[categoryId]
-        const category = selectors.getCategoryOptionById(metadata, categoryOptionId)
+        const category = selectors.getCategoryOptionById(
+            metadata,
+            categoryOptionId
+        )
         return category?.displayName
     }
 

@@ -839,7 +839,12 @@ export const getFixedPeriodsForTypeAndDateRange = ({
     const convertedPeriods = []
 
     while (!startDateReached) {
-        getFixedPeriodsByTypeAndYear({ periodType, year, formatYyyyMmDd, config })
+        getFixedPeriodsByTypeAndYear({
+            periodType,
+            year,
+            formatYyyyMmDd,
+            config,
+        })
             .reverse()
             .forEach((period) => {
                 const periodEnd = new Date(period.endDate)

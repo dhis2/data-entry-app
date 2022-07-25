@@ -9,7 +9,7 @@ import {
 import { useDataSetId } from '../use-context-selection/index.js'
 
 function createFormatYyyyMmDd({ periodType, dateFormat }) {
-    return date => {
+    return (date) => {
         if (periodType === 'Daily') {
             // moment format tokens are case sensitive
             // see https://momentjs.com/docs/#/parsing/string-format/
