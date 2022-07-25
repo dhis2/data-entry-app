@@ -28,6 +28,7 @@ export const getOptionSets = (metadata) => metadata.optionSets
 // Select by id
 
 export const getCategoryById = (metadata, id) => getCategories(metadata)[id]
+export const getCategoryOptionById = (metadata, id) => getCategoryOptions(metadata)[id]
 export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
 export const getDataSetById = (metadata, id) => getDataSets(metadata)?.[id]
 export const getDataElementById = (metadata, id) =>
