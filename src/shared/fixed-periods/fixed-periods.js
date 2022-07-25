@@ -32,6 +32,8 @@ const FINANCIAL_JULY = 'FinancialJuly'
 const FINANCIAL_OCT = 'FinancialOct'
 const FINANCIAL_NOV = 'FinancialNov'
 
+const isValidDate = (date) => !isNaN(date.getTime())
+
 const PERIOD_TYPES = new Set([
     DAILY,
     WEEKLY,
@@ -548,7 +550,7 @@ const getFinancialAprilPeriodType = (formatYyyyMmDd, fnFilter) => {
     }
 }
 
-const defaultFormatYyyyMmDd = (date) => {
+export const defaultFormatYyyyMmDd = (date) => {
     const y = date.getFullYear()
     let m = String(date.getMonth() + 1)
     let d = String(date.getDate())
@@ -701,6 +703,7 @@ export const getFixedPeriodTypes = ({
         ),
         displayName: i18n.t('Financial year (Start July)'),
     },
+
     {
         type: FINANCIAL_APRIL,
         regex: /^([0-9]{4})April$/, // YYYY"April"
@@ -809,13 +812,13 @@ export const parsePeriodId = (id, allowedTypes) => {
     }
 }
 
-const isValidDate = (date) => !isNaN(date.getTime())
-
-export const getFixedPeriodsForTypeAndDateRange = (
+export const getFixedPeriodsForTypeAndDateRange = ({
     periodType,
     startDate,
-    endDate
-) => {
+    endDate,
+    formatYyyyMmDd,
+    config,
+}) => {
     // Allow dates and date-strings
     startDate = new Date(startDate)
     endDate = new Date(endDate)
@@ -836,7 +839,7 @@ export const getFixedPeriodsForTypeAndDateRange = (
     const convertedPeriods = []
 
     while (!startDateReached) {
-        getFixedPeriodsByTypeAndYear({ periodType, year })
+        getFixedPeriodsByTypeAndYear({ periodType, year, formatYyyyMmDd, config })
             .reverse()
             .forEach((period) => {
                 const periodEnd = new Date(period.endDate)
