@@ -77,7 +77,6 @@ export default function AttributeOptionComboSelectorBarItem({
     return (
         <div data-test="attribute-option-combo-selector">
             <SelectorBarItem
-                disabled={categoryCombo.isDefault}
                 label={label}
                 value={valueLabel}
                 open={open}

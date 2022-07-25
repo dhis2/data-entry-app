@@ -36,4 +36,3 @@ MenuSelect.propTypes = {
     dataTest: PropTypes.string,
     selected: PropTypes.string,
 }
-10

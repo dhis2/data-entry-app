@@ -2,6 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { MenuSelect } from '../menu-select/index.js'
 import css from './categories-menu.module.css'
 
 export default function CategoriesMenu({
@@ -10,6 +11,29 @@ export default function CategoriesMenu({
     selected,
     onChange,
 }) {
+    if (categories.length === 1) {
+        const category = categories[0]
+        const values = category.categoryOptions.map(({ id, displayName }) => ({
+            value: id,
+            label: displayName,
+        }))
+
+        return (
+            <MenuSelect
+                values={values}
+                selected={selected[category.id]}
+                dataTest="data-set-selector-menu"
+                onChange={({ selected: categoryOptionId }) => {
+                    onChange({
+                        categoryId: category.id,
+                        selected: categoryOptionId,
+                    })
+                    close()
+                }}
+            />
+        )
+    }
+
     return (
         <div className={css.container}>
             <div className={css.inputs}>
