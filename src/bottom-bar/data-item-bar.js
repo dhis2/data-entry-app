@@ -1,6 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button } from '@dhis2/ui'
 import React from 'react'
+import { dataDetailsSidebarId } from '../data-workspace/constants.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { useRightHandPanelContext } from '../right-hand-panel/index.js'
 import { useCurrentItemContext } from '../shared/index.js'
@@ -31,7 +32,10 @@ export default function DataItemBar() {
                     `| ${categoryOptionComboDisplayName}`}
             </span>
 
-            <Button small onClick={() => rightHandPanel.show('data-details')}>
+            <Button
+                small
+                onClick={() => rightHandPanel.show(dataDetailsSidebarId)}
+            >
                 {i18n.t('View details')}
             </Button>
         </div>

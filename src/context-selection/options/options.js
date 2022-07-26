@@ -1,6 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { FlyoutMenu, MenuItem, MenuDivider, DropdownButton } from '@dhis2/ui'
 import React, { useState } from 'react'
+import { contextualHelpSidebarId } from '../../data-workspace/constants.js'
 import { usePrintableArea } from '../../data-workspace/print-area/print-area-context.js'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 
@@ -28,7 +29,7 @@ export default function Options() {
             <MenuItem
                 label={i18n.t('Help')}
                 onClick={() => {
-                    rightHandPanel.show('contextual-help')
+                    rightHandPanel.show(contextualHelpSidebarId)
                     setShowMenu(false)
                 }}
             />

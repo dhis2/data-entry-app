@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import { useSetCurrentItemContext } from '../../shared/index.js'
+import { dataDetailsSidebarId } from '../constants.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
@@ -102,7 +103,7 @@ export function EntryFieldInput({
         const { key, shiftKey } = event
 
         if (shiftKey && key === 'Enter') {
-            rightHandPanel.show('data-details')
+            rightHandPanel.show(dataDetailsSidebarId)
         } else if (key === 'ArrowDown' || key === 'Enter') {
             event.preventDefault()
             focusNext()

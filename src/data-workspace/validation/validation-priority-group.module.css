@@ -1,0 +1,43 @@
+.titleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.titleWrapper :global(h1) {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+    color: var(--colors-grey900);
+    display: inline-block;
+}
+.priorityGroupBox {
+    margin-bottom: 12px;
+    padding-top: 8px;
+    padding-bottom: 12px;
+    padding-inline-start: 12px;
+    padding-inline-end: 8px;
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--colors-grey900);
+}
+.formula {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--colors-grey700);
+}
+
+.warning {
+    background-color: var(--colors-yellow050);
+    border-inline-start: 4px solid var(--colors-yellow500);
+}
+
+.error {
+    background-color: var(--colors-red050);
+    border-inline-start: 4px solid var(--colors-red500);
+}
+
+.info {
+    background-color: var(--colors-grey050);
+    border-inline-start: 4px solid var(--colors-grey500);
+}

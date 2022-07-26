@@ -64,6 +64,9 @@
         "tabbable": "^5.2.1",
         "use-query-params": "^1.2.3"
     },
+    "engines": {
+        "node": ">=14.0.0"
+    },
     "resolutions": {
         "react-query": "4.0.0-alpha.10",
         "react-error-overlay": "6.0.9"

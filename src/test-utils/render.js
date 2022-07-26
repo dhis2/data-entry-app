@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
+import { CustomDataProvider, Provider } from '@dhis2/app-runtime'
 import { render as renderOrig } from '@testing-library/react'
 import React from 'react'
-import { QueryClient } from 'react-query'
 import { MemoryRouter } from 'react-router-dom'
 import { OuterComponents } from '../app/app-wrapper.js'
+import { useTestQueryClient } from './use-test-query-client.js'
 
 export function TestWrapper({
     wrapper: WrapperFromOptions,
@@ -11,8 +12,13 @@ export function TestWrapper({
     queryClient,
     children,
 }) {
+    const defaultTestQueryClient = useTestQueryClient()
+
     const content = (
-        <OuterComponents queryClient={queryClient} router={router}>
+        <OuterComponents
+            queryClient={queryClient ?? defaultTestQueryClient}
+            router={router}
+        >
             {children}
         </OuterComponents>
     )
@@ -25,14 +31,15 @@ export function TestWrapper({
 }
 
 export function render(ui, options = {}) {
-    const queryClient = new QueryClient()
-
+    const { dataForCustomProvider, ...restOptions } = options
     return renderOrig(ui, {
         ...options,
         wrapper: ({ children }) => (
-            <TestWrapper wrapper={options.wrapper} queryClient={queryClient}>
-                {children}
-            </TestWrapper>
+            <Provider baseUrl="http://dhis2-tests.org" apiVersion="39">
+                <CustomDataProvider data={dataForCustomProvider}>
+                    <TestWrapper {...restOptions}>{children}</TestWrapper>
+                </CustomDataProvider>
+            </Provider>
         ),
     })
 }

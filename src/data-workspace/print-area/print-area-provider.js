@@ -33,7 +33,7 @@ export default function PrintAreaProvider({ children }) {
         <PrintAreaContext.Provider value={value}>
             <div
                 className={cx(
-                    styles.pintAreaProvider,
+                    styles.printAreaProvider,
                     formCleared && 'form-cleared'
                 )}
             >
